@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/public/styles/styles.css">
+    <title>Registro</title>
+</head>
+<body>
+    <h1>Registro de Información</h1>
+    <form id="registroForm" action="/registrar" method="POST">
+        <label for="id">ID:</label>
+        <input type="text" id="id" name="id" required>
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" required>
+        <label for="descripcion">Descripción:</label>
+        <input type="text" id="descripcion" name="descripcion" required>
+        <label for="departamento">Departamento:</label>
+        <input type="text" id="departamento" name="departamento" required>
+        <button type="submit">Registrar</button>
+    </form>
+    <script src="script.js"></script>
+</body>
+</html>
