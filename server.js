@@ -18,6 +18,7 @@ app.post('/registrar', (req, res) => {
     QRCode.toDataURL(qrData, (err, url) => {
         if (err) return res.status(500).send(err);
         res.send(`<h1>Registro Exitoso</h1><img src="${url}"><p>Escanea el código QR para ver la información.</p>`);
+        console.log('Qr: ', url)
     });
 });
 
