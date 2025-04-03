@@ -16,7 +16,8 @@ app.post('/registrar', (req, res) => {
 });
 
 app.get('/', (req, res) => {
-    res.render('index');
+    res.render('index', 
+    { nombre: 'Ricardo'});
 })
 
 app.get('/info', (req, res) => {

@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/public/styles/styles.css">
+    <link rel="stylesheet" href="/styles/styles.css">
     <title>Registro</title>
 </head>
 <body>
-    <h1>Registro de Información</h1>
+    <h1>Registro de Información <%= nombre %></h1>
     <form id="registroForm" action="/registrar" method="POST">
         <label for="id">ID:</label>
         <input type="text" id="id" name="id" required>
