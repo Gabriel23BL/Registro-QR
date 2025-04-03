@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/styles.css">
+    <title>Registro Contraloria</title>
+</head>
+<body class="bg-gray-100 p-6">
+
+    <div class="flex justify-between items-center mb-4">    
+        <div class="flex items-center">
+            <img src="/img/logo.jpg" alt="Logo" class="imgLogo w-10 mr-2">
+            <h1 class="text-xl font-bold">Registro</h1>
+        </div>
+        <button class="bg-blue-500 text-white px-4 py-2 rounded">Generar PDF</button>
+    
+    </div>
+
+    <div class="overflow-x-auto">
+        <table class="min-w-full bg-white border border-gray-300">
+            <thead>
+                <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+                    <th class="py-3 px-6 text-left">Número de Identificación</th>
+                    <th class="py-3 px-6 text-left">Nombre</th>
+                    <th class="py-3 px-6 text-left">Descripción</th>
+                    <th class="py-3 px-6 text-left">Departamento</th>
+                    <th class="py-3 px-6 text-left">Código QR</th>
+                    <th class="py-3 px-6 text-left">Acciones</th>
+                </tr>
+            </thead>
+            <!-- Aquí se pueden vamos a agg las filas desde el back-ent -->
+            <tbody class="text-gray-600 text-sm font-light">
+                <tr class="border-b border-gray-200 hover:bg-gray-100">
+                    <td class="py-3 px-6 text-center">001</td>
+                    <td class="py-3 px-6">canaima</td>
+                    <td class="py-3 px-6">Blanca letras rojas</td>
+                    <td class="py-3 px-6">Mi setup</td>
+                    <td class="py-3 px-6"><img src="ruta/a/codigo_qr.png" alt="Código QR" class="h-10 w-10"></td>
+                    <td class="py-3 px-6">
+                        <button class="bg-blue-500 text-white px-2 py-1 rounded">Editar</button>
+                        <button class="bg-red-500 text-white px-2 py-1 rounded">Eliminar</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>
