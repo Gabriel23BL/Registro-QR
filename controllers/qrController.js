@@ -167,8 +167,6 @@ const testData = [
     }
   ];
   
-  // Ruta para generar el PDF
-  // Ruta para generar el PDF
   router.get('/pdf', async (req, res) => {
     try {
       const doc = new PDFDocument({ margin: 20, size: 'A4' });
@@ -177,37 +175,33 @@ const testData = [
       res.setHeader('Content-Disposition', 'attachment; filename=datos.pdf');
       doc.pipe(res);
   
-      // Configuración compacta
       const tableConfig = {
-        columnWidths: [70, 110, 170, 95, 55], // Ajuste de anchos
-        padding: 1,  // Reducción de espacio entre columnas
-        rowHeight: 40,  // Altura reducida de filas
-        bodyFontSize: 9,  // Texto más pequeño
-        leftMargin: 20, // Margen izquierdo reducido
+        columnWidths: [70, 110, 170, 95, 55], 
+        padding: 1,  
+        rowHeight: 40,  
+        bodyFontSize: 9,  
+        leftMargin: 20, 
 
       };
   
-      // Calcular posición inicial
       const totalWidth = tableConfig.columnWidths.reduce((a, b) => a + b, 0) + 
                         (tableConfig.padding * (tableConfig.columnWidths.length - 1));
       const tableStartX = (doc.page.width - totalWidth) / 2;
   
-      let yPosition = doc.page.margins.top; // Comienza desde el margen superior
+      let yPosition = doc.page.margins.top; 
   
-      // Verificación de espacio ajustada
       const checkSpace = () => {
-        if (yPosition + tableConfig.rowHeight > doc.page.height - 20) { // Margen inferior reducido
+        if (yPosition + tableConfig.rowHeight > doc.page.height - 20) { 
           doc.addPage();
-          yPosition = 20; // Menor espacio superior en nuevas páginas
+          yPosition = 20; 
         }
       };
   
-      // Generar contenido directo
       for (const item of testData) {
         checkSpace();
         let xPosition = tableStartX;
   
-        [0, 1, 2, 3, 4].forEach(index => { // Índices directos
+        [0, 1, 2, 3, 4].forEach(index => { 
           let content;
           switch(index) {
             case 0: content = item.id; break;
