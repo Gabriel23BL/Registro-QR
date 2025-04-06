@@ -1,3 +1,4 @@
+/*Colores*/
 :root {
     --blanco: rgb(255,255,254);
     --aqua: rgb(0, 255, 191);
@@ -18,12 +19,12 @@ body {
 }
 
 /*titulo*/
-
 .tituloVista {
     text-align: center;
     color: var(--azul);
     font-size: 15px;
 }
+
 
 /*Imagenes*/
 .imgLogo {
@@ -49,8 +50,8 @@ body {
     height: 70px;
     
 }
-/*formulario*/
 
+/*formulario*/
 .formulario {
     display: flex;
     flex-direction: column;
@@ -64,7 +65,7 @@ body {
 }
 
 /*Botones*/
-.btnAccion1 {
+.btnAccionEditar {
     display: flex;
     width: 50px;
     height: 50px;
@@ -73,11 +74,12 @@ body {
     justify-content: center;
     border-radius: 50px;
 }
-.btnAccion1:hover {
-    background-color: var(--azul3);
-}
+    .btnAccionEditar:hover {
+        background-color: var(--azul3);
+    }
 
-.btnAccion2 {
+
+.btnAccionEliminar {
     display: flex;
     width: 50px;
     height: 50px;
@@ -86,9 +88,9 @@ body {
     justify-content: center;
     border-radius: 50px;
 }
-.btnAccion2:hover {
-    background-color: var(--rojo2);
-}
+    .btnAccionEliminar:hover {
+        background-color: var(--rojo2);
+    }
 
 
 .btnRegistro {
@@ -102,10 +104,10 @@ body {
     cursor: pointer;
 
 }
+    .btnRegistro:hover {
+        background-color: var(--verde2);
+    }
 
-.btnRegistro:hover {
-    background-color: var(--verde2);
-}
 
 .btnPdf {
     width: 200px;
@@ -116,14 +118,13 @@ body {
     cursor: pointer;
 
 }
-.btnPdf:hover {
-    background-color: var(--rojo2);
-}
+    .btnPdf:hover {
+        background-color: var(--rojo2);
+    }
 
 
 /*Pie de pagina*/
-.pieDePagina {
-    
+.pieDePagina { 
     background: linear-gradient(to bottom, var(--aqua2), var(--azulMarino)); 
     height: 150px; 
     display: flex;
