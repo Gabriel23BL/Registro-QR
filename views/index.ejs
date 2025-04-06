@@ -3,39 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="/styles/styles.css">
     <title>Registro</title>
 </head>
 <body>
     <header>
-        <div class="tituloVista">
-            <div class="imgLogo" >
-                <img class="imgLogo" src="/img/logo.jpg" alt="">
-            </div>
-            <h1>Registro de Información <%= nombre %></h1>
+        <div class="container mx-auto p-4">
+            <header class="text-center mb-6">
+                <div class="imgLogo mb-4">
+                    <img class="imgLogo w-20 mx-auto" src="/img/logo.jpg" alt="Logo">
+                </div>
+                <h1 class="text-2xl font-bold">Registro de Información <%= nombre %></h1>
+            </header>
+            
+            <main class="flex justify-center">
+                <div class="formulario bg-white p-6 rounded shadow-md w-full max-w-md">
+                    <form id="registroForm" action="/registrar" method="POST">
+
+                        <label for="id" class="block text-white ">Número de Identificación:</label>
+                        <input type="text" id="id" name="id" required class="border border-gray-300 p-2 w-full mb-4 rounded">
+            
+                        <label for="nombre" class="block text-white ">Nombre:</label>
+                        <input type="text" id="nombre" name="nombre" required class="border border-gray-300 p-2 w-full mb-4 rounded">
+            
+                        <label for="descripcion" class="block text-white ">Descripción:</label>
+                        <input type="text" id="descripcion" name="descripcion" required class="border border-gray-300 p-2 w-full mb-4 rounded">
+            
+                        <label for="departamento" class="block text-white ">Departamento:</label>
+                        <input type="text" id="departamento" name="departamento" required class="border border-gray-300 p-2 w-full mb-4 rounded">
+            
+                        <button class="btnRegistro bg-blue-500 text-white px-4 py-2 rounded" type="submit">Registrar</button>
+                    </form>
+                </div>  
+            </main>
         </div>
-    </header>
-    <main>
-        <div class="formulario">
-            <form id="registroForm" action="/registrar" method="POST">
 
-                <label for="id">Numero de Identificación:</label>
-                    <input type="text" id="id" name="id" required>
+        <div class="flex items-center m-20">
+         
+        </div>
         
-                <label for="nombre">Nombre:</label>
-                    <input type="text" id="nombre" name="nombre" required>
+       <div class="m-20 flex justify-between">
+            <div class="flex items-center">
+                <img src="/img/logo.jpg" alt="Logo" class="imgLogo2 h-10 w-10 mr-2">
+                <h1 class="text-xl font-bold">Lista Registro Contraloria</h1>
+            </div>
+            <div class="flex items-center">
+                  <button class="btnPdf text-white px-4 py-2 rounded"><a href="/pdf">Generar <i class="bi bi-filetype-pdf"></i></a></button>
+            </div>
         
-                <label for="descripcion">Descripción:</label>
-                    <input type="text" id="descripcion" name="descripcion" required>
-        
-                <label for="departamento">Departamento:</label>
-                    <input type="text" id="departamento" name="departamento" required>
-        
-                <button class="btnRegistro" type="submit">Registrar</button>
+        </div>
+    
+    <div class="overflow-x-auto m-20">
+        <table class="min-w-full bg-white border border-gray-300">
+            <thead>
+                <tr class="bg-blue-900 text-white uppercase text-sm leading-normal">
+                    <th class="py-3 px-6 text-left">Número de Identificación</th>
+                    <th class="py-3 px-6 text-left">Nombre</th>
+                    <th class="py-3 px-6 text-left">Descripción</th>
+                    <th class="py-3 px-6 text-left">Departamento</th>
+                    <th class="py-3 px-6 text-left text-center">Código QR</th>
+                    <th class="py-3 px-6 text-center">Acciones</th>
+                </tr>
+            </thead>
+            
+            <tbody class="text-gray-600 text-sm font-light">
+                <tr class="border-b border-gray-200 hover:bg-gray-100">
+                    <td class="py-3 px-6 text-center">001</td>
+                    <td class="py-3 px-6">Canaima</td>
+                    <td class="py-3 px-6">Letras rojas</td>
+                    <td class="py-3 px-6">mi setup</td>
+                    <td class="py-3 px-6"><img class="imgQr" src="data:image/png;base64,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" alt="Código QR" class="h-10 w-10"></td>
+                    <td class="flex justify-between py-3 px-6">
+                        <button class="btnAccion1 flex items-center justify-center text-white px-2 py-1 rounded"><i class="bi bi-pencil-square"></i></button>
+                        <button class="btnAccion2 flex items-center justify-center text-white px-2 py-1 rounded"><i class="bi bi-trash"></i></button>
+                    </td>
+                </tr>
 
-            </form>
-        </div>  
+            </tbody>
+        </table>
+    </div>
     </main>
+    <footer class="pieDePagina">
+        <div class="footer text-center mt-4 p-4  w-full text-white">
+            <p>© 2025 Registro Contraloria.</p>
+        </div>
     <script src="script.js"></script>
 </body>
 </html>
