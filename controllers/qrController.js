@@ -1,248 +1,184 @@
 const express = require('express');
+const { initializeApp } = require('firebase/app');
 const QRCode = require('qrcode');
 const router = express.Router();
 const PDFDocument = require('pdfkit');
 const qr = require('qr-image');
+const { getFirestore, collection, addDoc, getDocs, doc, getDoc, updateDoc, deleteDoc } = require('firebase/firestore');
 
-// Arreglo para almacenar los registros en memoria
-let registros = [];
+const firebaseConfig = {
+  apiKey: "AIzaSyCggej80SD-IXKCYpyFucLMeJmdKBVYphs",
+  authDomain: "qr-proyect-4cb56.firebaseapp.com",
+  projectId: "qr-proyect-4cb56",
+  storageBucket: "qr-proyect-4cb56.firebasestorage.app",
+  messagingSenderId: "1070410469042",
+  appId: "1:1070410469042:web:80866b82445223ce7583ab",
+  measurementId: "G-9XKS6NNP8E"
+};
 
-// Ruta para registrar un nuevo registro
-router.post('/registrar', (req, res) => {
+const firebaseApp = initializeApp(firebaseConfig);
+const db = getFirestore(firebaseApp);
+
+
+
+router.post('/registrar', async (req, res) => {
+  try {
     const { id, nombre, descripcion, departamento } = req.body;
-    const registro = { id, nombre, descripcion, departamento };
-    registros.push(registro); // Agregar el nuevo registro al arreglo
-
-    // Generar el código QR
-    const qrData = JSON.stringify(registro);
-    QRCode.toDataURL(qrData, (err, url) => {
-        if (err) return res.status(500).send(err);
-        // Redirigir a la página de información con el ID del registro
-        res.redirect(`/informacion?id=${id}`);
+    const qrText = `ID: ${id}\nNombre: ${nombre}\nDescripción: ${descripcion}\nDepartamento: ${departamento}`;
+    const qrUrl = await QRCode.toDataURL(qrText);
+    const docRef = await addDoc(collection(db, 'registrosQr'), {
+      id,
+      nombre,
+      descripcion,
+      departamento,
+      qrUrl,
     });
+
+    res.redirect('/')
+  } catch (error) {
+    console.error('Error al crear registro:', error);
+    res.status(500).json({ error: 'Error interno del servidor' });
+  }
 });
 
-// Ruta principal que renderiza la vista de inicio
-router.get('/', (req, res) => {
-    res.render('index', { nombre: 'Ricardo' });
+
+router.get('/', async (req, res) => {
+  try {
+    const querySnapshot = await getDocs(collection(db, 'registrosQr'));
+    const registros = querySnapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }));
+
+    res.render('index', { registros: registros });
+
+  } catch (error) {
+    console.error('Error al obtener registros:', error);
+    res.status(500).send('Error al cargar los registros');
+  }
 });
 
-// Ruta para obtener la información de un registro específico
 router.get('/informacion', async (req, res) => {
-    res.render('informacion');
+  res.render('informacion');
 });
 
-const testData = [
-    {
-      id: 'EMP-001',
-      nombre: 'Juan Pérez',
-      descripcion: 'Desarrollador Frontend',
-      departamento: 'Tecnología'
-    },
-    {
-      id: 'EMP-002',
-      nombre: 'María García',
-      descripcion: 'Diseñadora UX/UI',
-      departamento: 'Diseño'
-    },
-    {
-      id: 'EMP-003',
-      nombre: 'Carlos López',
-      descripcion: 'Gerente de Proyectos',
-      departamento: 'Gestión'
-    },
-    {
-      id: 'EMP-004',
-      nombre: 'Ana Martínez',
-      descripcion: 'Especialista en Marketing',
-      departamento: 'Marketing'
-    },
-    {
-      id: 'EMP-004',
-      nombre: 'Ana Martínez',
-      descripcion: 'Especialista en Marketing',
-      departamento: 'Marketing'
-    },
-    {
-      id: 'EMP-004',
-      nombre: 'Ana Martínez',
-      descripcion: 'Especialista en Marketing',
-      departamento: 'Marketing'
-    },
-    {
-      id: 'EMP-004',
-      nombre: 'Ana Martínez',
-      descripcion: 'Especialista en Marketing',
-      departamento: 'Marketing'
-    },
-    {
-      id: 'EMP-004',
-      nombre: 'Ana Martínez',
-      descripcion: 'Especialista en Marketing',
-      departamento: 'Marketing'
-    },
-    {
-      id: 'EMP-004',
-      nombre: 'Ana Martínez',
-      descripcion: 'Especialista en Marketing',
-      departamento: 'Marketing'
-    },
-    {
-      id: 'EMP-004',
-      nombre: 'Ana Martínez',
-      descripcion: 'Especialista en Marketing',
-      departamento: 'Marketing'
-    },
-    {
-      id: 'EMP-004',
-      nombre: 'Ana Martínez',
-      descripcion: 'Especialista en Marketing',
-      departamento: 'Marketing'
-    },
-    {
-      id: 'EMP-004',
-      nombre: 'Ana Martínez',
-      descripcion: 'Especialista en Marketing',
-      departamento: 'Marketing'
-    },
-    {
-      id: 'EMP-004',
-      nombre: 'Ana Martínez',
-      descripcion: 'Especialista en Marketing',
-      departamento: 'Marketing'
-    },
-    {
-      id: 'EMP-004',
-      nombre: 'Ana Martínez',
-      descripcion: 'Especialista en Marketing',
-      departamento: 'Marketing'
-    },
-    {
-      id: 'EMP-004',
-      nombre: 'Ana Martínez',
-      descripcion: 'Especialista en Marketing',
-      departamento: 'Marketing'
-    },
-    {
-      id: 'EMP-004',
-      nombre: 'Ana Martínez',
-      descripcion: 'Especialista en Marketing',
-      departamento: 'Marketing'
-    },
-    {
-      id: 'EMP-004',
-      nombre: 'Ana Martínez',
-      descripcion: 'Especialista en Marketing',
-      departamento: 'Marketing'
-    },
-    {
-      id: 'EMP-004',
-      nombre: 'Ana Martínez',
-      descripcion: 'Especialista en Marketing',
-      departamento: 'Marketing'
-    },
-    {
-      id: 'EMP-004',
-      nombre: 'Ana Martínez',
-      descripcion: 'Especialista en Marketing',
-      departamento: 'Marketing'
-    },
-    {
-      id: 'EMP-004',
-      nombre: 'Ana Martínez',
-      descripcion: 'Especialista en Marketing',
-      departamento: 'Marketing'
-    },
-    {
-      id: 'EMP-004',
-      nombre: 'Ana Martínez',
-      descripcion: 'Especialista en Marketing',
-      departamento: 'Marketing'
-    },
-    {
-      id: 'EMP-004',
-      nombre: 'Ana Martínez',
-      descripcion: 'Especialista en Marketing',
-      departamento: 'Marketing'
-    }
-  ];
-  
-  router.get('/pdf', async (req, res) => {
-    try {
+
+router.get('/pdf', async (req, res) => {
+  try {
+      const querySnapshot = await getDocs(collection(db, 'registrosQr'));
+      const registros = querySnapshot.docs.map(doc => ({
+          id: doc.id,
+          ...doc.data()
+      }));
+
       const doc = new PDFDocument({ margin: 20, size: 'A4' });
       
       res.setHeader('Content-Type', 'application/pdf');
-      res.setHeader('Content-Disposition', 'attachment; filename=datos.pdf');
+      res.setHeader('Content-Disposition', 'attachment; filename=registros_qr.pdf');
       doc.pipe(res);
-  
-      const tableConfig = {
-        columnWidths: [70, 110, 170, 95, 55], 
-        padding: 1,  
-        rowHeight: 40,  
-        bodyFontSize: 9,  
-        leftMargin: 20, 
 
+      // Configuración mejorada
+      const tableConfig = {
+          columnWidths: [80, 120, 180, 120, 100],
+          padding: 2,
+          rowHeight: 65,
+          bodyFontSize: 10,
+          headerFontSize: 8,
+          borderWidth: 0.8,
+          qrSize: 60,
+          qrVerticalOffset: 0 // Nuevo ajuste para posición vertical
       };
-  
-      const totalWidth = tableConfig.columnWidths.reduce((a, b) => a + b, 0) + 
-                        (tableConfig.padding * (tableConfig.columnWidths.length - 1));
+
+      const totalWidth = tableConfig.columnWidths.reduce((a, b) => a + b, 0);
       const tableStartX = (doc.page.width - totalWidth) / 2;
-  
-      let yPosition = doc.page.margins.top; 
-  
-      const checkSpace = () => {
-        if (yPosition + tableConfig.rowHeight > doc.page.height - 20) { 
-          doc.addPage();
-          yPosition = 20; 
-        }
+
+      let yPosition = 40;
+
+      // Función para dibujar bordes completos
+      const drawCompleteBorders = (x, y, widths, rowHeight) => {
+          doc.lineWidth(tableConfig.borderWidth);
+          
+          // Bordes exteriores
+          doc.rect(x, y, totalWidth, rowHeight).stroke();
+          
+          // Bordes internos verticales
+          let currentX = x;
+          for (let i = 0; i < widths.length - 1; i++) {
+              currentX += widths[i];
+              doc.moveTo(currentX, y)
+                 .lineTo(currentX, y + rowHeight)
+                 .stroke();
+          }
       };
-  
-      for (const item of testData) {
-        checkSpace();
-        let xPosition = tableStartX;
-  
-        [0, 1, 2, 3, 4].forEach(index => { 
-          let content;
-          switch(index) {
-            case 0: content = item.id; break;
-            case 1: content = item.nombre; break;
-            case 2: content = item.descripcion; break;
-            case 3: content = item.departamento; break;
-            case 4: content = qr.imageSync(item.id, { type: 'png' }); break;
+
+      for (const registro of registros) {
+          const qrText = `ID: ${registro.id}\nNombre: ${registro.nombre}\nDescripción: ${registro.descripcion}\nDepartamento: ${registro.departamento}`;
+          
+          const qrBuffer = await QRCode.toBuffer(qrText, {
+              type: 'png',
+              errorCorrectionLevel: 'H',
+              width: tableConfig.qrSize * 8
+          });
+
+          drawCompleteBorders(tableStartX, yPosition, tableConfig.columnWidths, tableConfig.rowHeight);
+
+          let xPosition = tableStartX;
+          
+          // Contenido de las celdas
+          [
+              {label: 'ID', value: registro.id},
+              {label: 'Nombre', value: registro.nombre},
+              {label: 'Descripción', value: registro.descripcion},
+              {label: 'Departamento', value: registro.departamento},
+              {label: 'QR', value: qrBuffer}
+          ].forEach((field, index) => {
+              // Encabezado de campo
+              doc.fontSize(tableConfig.headerFontSize)
+                 .text(field.label, xPosition + 5, yPosition + 5, {
+                     width: tableConfig.columnWidths[index] - 10,
+                     align: 'left'
+                 });
+
+              // Contenido principal
+              if (field.label === 'QR') {
+                  const qrY = yPosition + (tableConfig.rowHeight / 2) - (tableConfig.qrSize / 2) - tableConfig.qrVerticalOffset;
+                  doc.image(field.value, 
+                      xPosition + (tableConfig.columnWidths[index] - tableConfig.qrSize) / 2,
+                      qrY,
+                      { width: tableConfig.qrSize }
+                  );
+              } else {
+                  doc.fontSize(tableConfig.bodyFontSize)
+                     .text(field.value.toString(), 
+                         xPosition + 5, 
+                         yPosition + 20, {
+                             width: tableConfig.columnWidths[index] - 10,
+                             align: 'left',
+                             ellipsis: true
+                         });
+              }
+
+              xPosition += tableConfig.columnWidths[index];
+          });
+
+          yPosition += tableConfig.rowHeight;
+          
+          if (yPosition > doc.page.height - 60) {
+              doc.addPage();
+              yPosition = 40;
           }
-  
-          if (content instanceof Buffer) {
-            doc.image(content, xPosition - 6  , yPosition - 6, { 
-              width: 30,
-              height: 30
-            });
-          } else {
-            doc.fontSize(tableConfig.bodyFontSize)
-               .text(content, xPosition + 2, yPosition + 5, {
-                  width: tableConfig.columnWidths[index] - 4,
-                  align: 'left',
-                  lineBreak: false,
-                  ellipsis: true,
-                  height: tableConfig.rowHeight - 5
-               });
-          }
-  
-          xPosition += tableConfig.columnWidths[index] + tableConfig.padding;
-        });
-  
-        yPosition += tableConfig.rowHeight;
       }
-  
+
       doc.end();
-    } catch (error) {
-      console.error('Error:', error);
-      res.status(500).send('Error generando documento');
-    }
-  });
-  
+  } catch (error) {
+      console.error('Error generando PDF:', error);
+      res.status(500).send('Error generando documento PDF');
+  }
+});
+
 // Nueva ruta para obtener todos los registros y mostrarlos en una tabla
 router.get('/registros', async (req, res) => {
-    let tablaHTML = `
+  let tablaHTML = `
         <h1>Lista de Registros</h1>
         <table border="1">
             <tr>
@@ -254,11 +190,11 @@ router.get('/registros', async (req, res) => {
             </tr>
     `;
 
-    // Iterar sobre todos los registros y generar filas para la tabla
-    for (const registro of registros) {
-        const qrData = `http://localhost:3000/informacion?id=${registro.id}`; // URL para el código QR
-        const qrCodeURL = await QRCode.toDataURL(qrData); // Generar el código QR
-        tablaHTML += `
+  // Iterar sobre todos los registros y generar filas para la tabla
+  for (const registro of registros) {
+    const qrData = `http://localhost:3000/informacion?id=${registro.id}`; // URL para el código QR
+    const qrCodeURL = await QRCode.toDataURL(qrData); // Generar el código QR
+    tablaHTML += `
             <tr>
                 <td>${registro.id}</td>
                 <td>${registro.nombre}</td>
@@ -267,10 +203,10 @@ router.get('/registros', async (req, res) => {
                 <td><img src="${qrCodeURL}" alt="Código QR" style="width: 100px; height: 100px;"></td>
             </tr>
         `;
-    }
+  }
 
-    tablaHTML += `</table>`;
-    res.send(tablaHTML); // Enviar la tabla HTML como respuesta
+  tablaHTML += `</table>`;
+  res.send(tablaHTML); // Enviar la tabla HTML como respuesta
 });
 
 module.exports = router;
