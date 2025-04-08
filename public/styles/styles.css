@@ -137,11 +137,37 @@ body {
         background-color: var(--verde2);
     }
     
-/*Pie de pagina*/
 .pieDePagina { 
   
     height: 100px; 
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.modal {
+    transition: opacity 0.3s ease;
+}
+
+.bg-opacity-50 {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+
+.btnAccionEliminar {
+    background-color: #dc2626;
+    transition: background-color 0.2s;
+}
+
+.btnAccionEliminar:hover {
+    background-color: #b91c1c;
+}
+
+#deleteModal {
+    animation: fadeIn 0.3s;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
