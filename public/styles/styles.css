@@ -15,8 +15,9 @@
 
 body {
     font-family: Arial, sans-serif;
-    background-color: var(--aqua);
+    background: linear-gradient(to bottom, var(--aqua2), var(--azulMarino));
 }
+
 
 /*titulo*/
 .tituloVista {
@@ -122,11 +123,24 @@ body {
         background-color: var(--rojo2);
     }
 
+.btnBuscar {
+    width: 50px;
+    border-radius: 5px;
+    background-color: var(--verde);
+    justify-content: center;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
 
+}
+    .btnBuscar:hover {
+        background-color: var(--verde2);
+    }
+    
 /*Pie de pagina*/
 .pieDePagina { 
-    background: linear-gradient(to bottom, var(--aqua2), var(--azulMarino)); 
-    height: 150px; 
+  
+    height: 100px; 
     display: flex;
     align-items: center;
     justify-content: center;

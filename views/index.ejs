@@ -6,7 +6,7 @@
     
     <!--Tailwind-->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    
+
     <!--Bootstrap Icons-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     
@@ -22,7 +22,7 @@
                 <div class="imgLogo mb-4">
                     <img class="imgLogo w-20 mx-auto" src="/img/logo.jpg" alt="Logo">
                 </div>
-                <h1 class="text-2xl font-bold">Registro de Información</h1>
+                <h1 class="text-2xl text-white font-bold">Registro de Información Comtraloria</h1>
         </header>
         
         <!-- Formulario de Registro -->    
@@ -53,11 +53,28 @@
         </div>    
 
         <!--Registro--> 
-        <div class="m-20 flex justify-between">
+        <div class="m-20 ">
             <div class="flex items-center">
                 <img src="/img/logo.jpg" alt="Logo" class="imgLogo2 h-10 w-10 mr-2">
-                <h1 class="text-xl font-bold">Lista Registro Contraloria</h1>
+                <h2 class="text-xl text-white font-bold">Lista Registro Contraloria</h2>
             </div>
+        </div>
+
+        <div class="m-20 flex justify-between">
+            <div class="flex items-center">
+                <!--Buscar-->
+                <form class="d-flex ms-3" role="search">
+
+                    <input class="border border-gray-300 p-2 mb-4 rounded" type="search" placeholder="Buscar Departamento" aria-label="Search">
+                   
+                    <button class="btnBuscar text-white px-4 py-2 rounded " type="submit">
+                        <i class="bi bi-search"></i>
+                    </button>
+
+                  </form>
+            </div>
+
+
             <div class="flex items-center">
 
                 <button class="btnPdf text-white px-4 py-2 rounded">
@@ -67,11 +84,11 @@
                 </button>
                 
             </div>
-        
         </div>
+      
 
         <!-- Tabla de Registro -->
-        <div class="overflow-x-auto m-20">
+        <div class=" overflow-x-auto m-20">
             <% if (registros.length > 0) { %>
             <table class="min-w-full bg-white border border-gray-300">
 
