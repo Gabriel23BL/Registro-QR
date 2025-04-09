@@ -35,8 +35,14 @@
                 <form id="registroForm" action="/registrar" method="POST">
 
                     <label for="id" class="block text-white ">Número de Identificación:</label>
-                    <input type="text" id="id" name="id" required
-                        class="border border-gray-300 p-2 w-full mb-4 rounded">
+                    <input type="number" 
+       id="id" 
+       name="id" 
+       required 
+       min="100"
+       max="999"
+       title="El ID debe ser un número de 3 dígitos (entre 100 y 999)"
+       class="border border-gray-300 p-2 w-full mb-4 rounded">
 
                     <label for="nombre" class="block text-white ">Nombre:</label>
                     <input type="text" id="nombre" name="nombre" required
