@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--Tailwind-->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+    <!--Bootstrap Icons-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!--Css-->
+    <link rel="stylesheet" href="/styles/styles.css">
+
+    <title>Registro</title>
+</head>
+
+<body>
+    <main>
+        <!--titulo -->
+        <header class="container text-center mb-6  mx-auto p-4">
+            <div class="imgLogo mb-4">
+                <img class="imgLogo w-20 mx-auto" src="/img/logo.jpg" alt="Logo">
+            </div>
+            <h1 class="text-2xl text-white font-bold">Registro de Información Comtraloria</h1>
+        </header>
+
+        <!-- Formulario de Registro -->
+        <div class="container mx-auto p-4 flex justify-center">
+            <div class="formulario bg-white p-6 rounded shadow-md w-full max-w-md">
+                <form id="registroForm" action="/registrar" method="POST">
+                    <label for="id" class="block text-white ">Número de Identificación:</label>
+                    <input type="number" 
+                           id="id" 
+                           name="id" 
+                           required 
+                           min="001"
+                           max="999"
+                           title="El ID debe ser un número de 3 dígitos (entre 001 y 999)"
+                           class="border border-gray-300 p-2 w-full mb-4 rounded">
+
+                    <label for="nombre" class="block text-white ">Nombre:</label>
+                    <input type="text" id="nombre" name="nombre" required
+                           class="border border-gray-300 p-2 w-full mb-4 rounded">
+
+                    <label for="descripcion" class="block text-white ">Descripción:</label>
+                    <input type="text" id="descripcion" name="descripcion" required
+                           class="border border-gray-300 p-2 w-full mb-4 rounded">
+
+                    <label for="departamento" class="block text-white ">Departamento:</label>
+                    <input type="text" id="departamento" name="departamento" required
+                           class="border border-gray-300 p-2 w-full mb-4 rounded">
+
+                    <button class="btnRegistro bg-blue-500 text-white px-4 py-2 rounded" type="submit">
+                        Registrar
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!--Registro-->
+        <div class="m-20 ">
+            <div class="flex items-center">
+                <img src="/img/logo.jpg" alt="Logo" class="imgLogo2 h-10 w-10 mr-2">
+                <h2 class="text-xl text-white font-bold">Lista Registro Contraloria</h2>
+            </div>
+        </div>
+
+        <div class="m-20 flex justify-between">
+            <div class="flex items-center">
+                <!--Buscar-->
+                <form class="d-flex ms-3" role="search">
+                </form>
+            </div>
+
+            <% if (registros.length > 0) { %>
+            <div class="flex items-center">
+                <button class="btnPdf text-white px-4 py-2 rounded">
+                </button>
+            </div>
+            <% }; %>
+        </div>
+
+        <!-- Tabla de Registro -->
+        <div class="overflow-x-auto m-20">
+            <% if (registros.length > 0) { %>
+                <table class="min-w-full bg-white border border-gray-300">
+                    <thead>
+                        <tr>
+                            <th class="border border-gray-300 p-2">ID</th>
+                            <th class="border border-gray-300 p-2">Nombre</th>
+                            <th class="border border-gray-300 p-2">Descripción</th>
+                            <th class="border border-gray-300 p-2">Departamento</th>
+                            <th class="border border-gray-300 p-2">Código QR</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% registros.forEach(registro => { %>
+                            <tr>
+                                <td class="border border-gray-300 p-2"><%= registro.id %></td>
+                                <td class="border border-gray-300 p-2"><%= registro.nombre %></td>
+                                <td class="border border-gray-300 p-2"><%= registro.descripcion %></td>
+                                <td class="border border-gray-300 p-2"><%= registro.departamento %></td>
+                                <td class="border border-gray-300 p-2"><img src="<%= registro.qrUrl %>" alt="Código QR" style="width: 100px; height: 100px;"></td>
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            <% } else { %>
+                <p class="text-white">No hay registros disponibles.</p>
+            <% } %>
+        </div>
+    </main>
+
+    <footer class="pieDePagina">
+        <div class="footer text-center mt-4 p-4 w-full text-white">
+            <p>© 2025 Registro Contraloria.</p>
+        </div>
+    </footer>
+
+    <script src="/js/script.js"></script>
+</body>
+
+</html>
