@@ -1,11 +1,12 @@
-const { getDocs, collection, orderBy, query } = require('firebase/firestore');
+const { getDocs, collection, orderBy, query  } = require('firebase/firestore');
 const { db } = require('./dbController');
 
 exports.mostrarRegistros = async (req, res) => {
    try {
+
     const q = query(
       collection(db, 'registrosQr'),
-      orderBy('id')
+      orderBy('id') // Cambia 'nombre' por el campo que quieras ordenar
     );
     
     const querySnapshot = await getDocs(q);

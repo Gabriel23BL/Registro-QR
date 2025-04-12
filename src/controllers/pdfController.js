@@ -1,15 +1,12 @@
 const PDFDocument = require('pdfkit');
-const { getDocs, collection } = require('firebase/firestore');
 const QRCode = require('qrcode');
-const { db } = require('./dbController');
+const { getRegistrosQr } = require('./dbController');
 
 const generatePDF = async (req, res) => {
   try {
-    const querySnapshot = await getDocs(collection(db, 'registrosQr'));
-    const registros = querySnapshot.docs.map(doc => ({
-      id: doc.id,
-      ...doc.data()
-    }));
+    const { registros } = req.body; // Datos recibidos del cliente
+
+    
 
     const doc = new PDFDocument({ margin: 20, size: 'A4' });
 
@@ -49,9 +46,9 @@ const generatePDF = async (req, res) => {
     for (const registro of registros) {
       const qrText = `ID: ${registro.id}\nNombre: ${registro.nombre}\nDescripción: ${registro.descripcion}\nDepartamento: ${registro.departamento}`;
       const qrBuffer = await QRCode.toBuffer(qrText, {
-        type: 'png',
-        errorCorrectionLevel: 'H',
-        width: tableConfig.qrSize * 8
+          type: 'png',
+          errorCorrectionLevel: 'H',
+          width: tableConfig.qrSize * 8
       });
 
       drawCompleteBorders(tableStartX, yPosition, tableConfig.columnWidths, tableConfig.rowHeight);

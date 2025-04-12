@@ -73,3 +73,5 @@ let registroToDelete = null;
             alert('Error al eliminar el registro');
         }
     }
+
+    

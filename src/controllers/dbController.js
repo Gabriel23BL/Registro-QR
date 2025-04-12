@@ -65,15 +65,47 @@ const deleteRegistro = async (req, res) => {
   }
 };
 
+const getRegistrosQr = async () => {
+  try {
+    const querySnapshot = await getDocs(collection(db, 'registrosQr'));
+    return querySnapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }));
+  } catch (error) {
+    console.error("Error fetching registrosQr: ", error);
+    throw error; // This will automatically reject the promise
+  }
+};
 
-const viewRegistro = async (req, res) => {
 
+async function getRegistrosPorDepartamento(departamento) {
+  try {
+    // Crear la consulta
+    const q = query(
+      collection(db, 'registrosQr'),
+      where('departamento', '==', departamento),
+      orderBy('id', 'asc') 
+    );
+
+    const querySnapshot = await getDocs(q);
+    
+    return querySnapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }));
+  } catch (error) {
+    console.error("Error al obtener registros: ", error);
+    throw error;
+  }
 }
+
 
 module.exports = {
   addRegistro,
   updateRegistro,
   deleteRegistro,
-  viewRegistro,
+  getRegistrosQr,
+  getRegistrosPorDepartamento,
   db
 };
