@@ -1,7 +1,7 @@
 const PDFDocument = require('pdfkit');
 const { getDocs, collection } = require('firebase/firestore');
 const QRCode = require('qrcode');
-const db = require('./dbController'); // Asegúrate de que la ruta sea correcta
+const { db } = require('./dbController');
 
 const generatePDF = async (req, res) => {
   try {
