@@ -1,13 +1,9 @@
 const PDFDocument = require('pdfkit');
 const QRCode = require('qrcode');
-const { getRegistrosQr } = require('./dbController');
 
 const generatePDF = async (req, res) => {
   try {
-    const { registros } = req.body; // Datos recibidos del cliente
-
-    
-
+    const { registros } = req.body;
     const doc = new PDFDocument({ margin: 20, size: 'A4' });
 
     res.setHeader('Content-Type', 'application/pdf');

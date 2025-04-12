@@ -1,19 +1,8 @@
-const { getDocs, collection, orderBy, query  } = require('firebase/firestore');
-const { db } = require('./dbController');
+const { getRegistrosQr } = require('./dbController');
 
 exports.mostrarRegistros = async (req, res) => {
    try {
-
-    const q = query(
-      collection(db, 'registrosQr'),
-      orderBy('id') // Cambia 'nombre' por el campo que quieras ordenar
-    );
-    
-    const querySnapshot = await getDocs(q);
-       const registros = querySnapshot.docs.map(doc => ({
-         firestoreId: doc.id,
-         ...doc.data()
-       }));
+       const registros = await getRegistrosQr()
        res.render('index', { registros: registros });
      } catch (error) {
        console.error('Error al obtener registros:', error);
