@@ -4,9 +4,6 @@ import { obtenerIpServidor } from "../utils/ObtenerIpServidor.js";
 import PDFDocument from 'pdfkit';
 import QRCode from 'qrcode';
 
-
-
-
 export class ControladorProducto {
   async listar(req, res) {
     try {
@@ -126,11 +123,9 @@ export class ControladorProducto {
         }
       };
 
-
-      
       const ipServidor = await obtenerIpServidor();
       for (const registro of registros) {
-        const qrText = `http://${ipServidor}:${3000}/registros/${id}`;
+        const qrText = `http://${ipServidor}:${3000}/registros/${registro.id}`;
         const qrBuffer = await QRCode.toBuffer(qrText, {
           type: 'png',
           errorCorrectionLevel: 'H',

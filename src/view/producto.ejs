@@ -26,14 +26,19 @@
           Detalles del Registro <span class="text-blue-500">#<%= registro.id %></span>
         </h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <!-- Información del Producto -->
           <div>
             <p class="mb-2"><span class="font-semibold">ID:</span> <%= registro.id %></p>
             <p class="mb-2"><span class="font-semibold">Nombre:</span> <%= registro.nombre %></p>
             <p class="mb-2"><span class="font-semibold">Descripción:</span> <%= registro.descripcion %></p>
             <p class="mb-2"><span class="font-semibold">Departamento:</span> <%= registro.departamento %></p>
-            <p class="mb-2"><span class="font-semibold">Estado:</span> <%= registro.estado %></p>
-            <p class="mb-2"><span class="font-semibold">Observaciones:</span> <%= registro.observaciones || 'N/A' %></p>
+            <p class="mb-2"><span class="font-semibold">Estado:</span>
+            <span class="px-2 py-1 mr-2 rounded-full text-sm font-semibold
+              <%= registro.estado === 'Activo'
+                  ? 'bg-green-100 text-green-800'
+                  : 'bg-red-100 text-red-800' %>">
+            <%= registro.estado %>
+            </span><br>
+           <span style="max-width: 200px; word-break: break-word;"><%= registro.observaciones %></span></p>
             <p class="mb-2"><span class="font-semibold">Encargado:</span> <%= registro.encargado %></p>
           </div>
 
