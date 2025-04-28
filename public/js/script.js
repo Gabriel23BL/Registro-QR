@@ -38,8 +38,13 @@ function closeModal() {
 document.getElementById('registroForm').addEventListener('submit', async function(e) {
     e.preventDefault();
     const form = e.target;
-    const data = Object.fromEntries(new FormData(form).entries());
-  
+    const data = Object.fromEntries(
+      Array.from(new FormData(form))
+          .map(([key, value]) => [
+              key, 
+              typeof value === 'string' ? value.trim() : value
+          ])
+  );
     try {
       const res = await fetch(form.action, {
         method: 'POST',
@@ -70,7 +75,13 @@ document.getElementById('editForm').addEventListener('submit', async function(e)
     const formData = new FormData(e.target); 
     const dataId = formData.get('DateID');
     const url = `/registrar/${dataId}/update`;
-    const data = Object.fromEntries(new FormData(e.target).entries());
+    const data = Object.fromEntries(
+      Array.from(new FormData(e.target))
+          .map(([key, value]) => [
+              key, 
+              typeof value === 'string' ? value.trim() : value
+          ])
+  );
     console.log(data)
     try {
       const res = await fetch(url, {

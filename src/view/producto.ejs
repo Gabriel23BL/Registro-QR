@@ -32,17 +32,15 @@
             <p class="mb-2"><span class="font-semibold">Descripción:</span> <%= registro.descripcion %></p>
             <p class="mb-2"><span class="font-semibold">Departamento:</span> <%= registro.departamento %></p>
             <p class="mb-2"><span class="font-semibold">Estado:</span>
-            <span class="px-2 py-1 mr-2 rounded-full text-sm font-semibold
+            <span class="py-1 mr-2 rounded-full text-base font-semibold
               <%= registro.estado === 'Activo'
-                  ? 'bg-green-100 text-green-800'
-                  : 'bg-red-100 text-red-800' %>">
+                  ? 'text-green-800'
+                  : 'text-red-800' %>">
             <%= registro.estado %>
             </span><br>
            <span style="max-width: 200px; word-break: break-word;"><%= registro.observaciones %></span></p>
             <p class="mb-2"><span class="font-semibold">Encargado:</span> <%= registro.encargado %></p>
           </div>
-
-          <!-- Código QR -->
           <div class="flex flex-col items-center justify-center">
             <h3 class="font-semibold mb-2">Código QR</h3>
             <% if (registro.qrUrl) { %>
