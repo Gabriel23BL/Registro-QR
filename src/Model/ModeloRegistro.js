@@ -1,6 +1,6 @@
 import { conexion } from '../db/conexion.js';
 
-export class ModeloProducto {
+export class ModeloRegistro {
   static async obtenerRegistros() {
     try {
       const db = await conexion();
@@ -27,7 +27,7 @@ export class ModeloProducto {
     try {
       const db = await conexion();
       const sql = `UPDATE registrosQr SET id = ?, nombre = ?, descripcion = ?, departamento = ?, qrUrl = ?, estado = ?, observaciones = ?, encargado = ? WHERE registro_id = ?`;
-      const params = [datos.id,datos.nombre, datos.descripcion, datos.departamento, qrUrl, datos.estado, datos.observaciones, datos.encargado, registro_id];
+      const params = [datos.id, datos.nombre, datos.descripcion, datos.departamento, qrUrl, datos.estado, datos.observaciones, datos.encargado, registro_id];
       await db.run(sql, params);
     } catch (error) {
       console.error("[Modelo] Error al actualizar el registro:", error.message);
@@ -53,3 +53,5 @@ export class ModeloProducto {
   }
 
 }
+
+

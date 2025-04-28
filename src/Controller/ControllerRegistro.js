@@ -1,14 +1,19 @@
-import { ModeloProducto } from "../Model/ModelProducto.js";
-import { validarCampos } from "../auth/validation.js";
+import { ModeloRegistro } from "../Model/ModeloRegistro.js";
+import { validarCampos } from "../middlewares/validation.js";
 import { obtenerIpServidor } from "../utils/ObtenerIpServidor.js";
 import PDFDocument from 'pdfkit';
 import QRCode from 'qrcode';
 
-export class ControladorProducto {
+export class ControladorRegistro {
   async listar(req, res) {
     try {
-      const registros = await ModeloProducto.obtenerRegistros();
-      res.render("index", { registros });
+      const registros = await ModeloRegistro.obtenerRegistros();
+      res.render("index", {
+        registros,
+        nombre: req.user.nombre,
+        email: req.user.email,
+        rol: req.user.rol,
+      });
     } catch (error) {
       console.log(error)
       res.status(500).json({ error: error.message });
@@ -18,7 +23,7 @@ export class ControladorProducto {
   async listarporId(req, res) {
     try {
       const { id } = req.params;
-      const registro = await ModeloProducto.buscarPorId(id);
+      const registro = await ModeloRegistro.buscarPorId(id);
       if (!registro) {
         return res.status(404).json({ error: 'Registro no encontrado' });
       }
@@ -33,7 +38,7 @@ export class ControladorProducto {
     try {
       const { id, nombre, descripcion, departamento, status, observaciones, encargado } = req.body;
       validarCampos(id, nombre, descripcion, departamento, status, observaciones, encargado);
-      const existeProducto = await ModeloProducto.buscarPorId(id);
+      const existeProducto = await ModeloRegistro.buscarPorId(id);
       if (existeProducto) {
         return res.status(400).json({ error: `El ID ${id} ya está registrado en otro registro.` });
       }
@@ -42,7 +47,7 @@ export class ControladorProducto {
       const qrText = `http://${ipServidor}:${3000}/registros/${id}`;
       const qrUrl = await QRCode.toDataURL(qrText);
 
-      await ModeloProducto.crearRegistro(req.body, qrUrl);
+      await ModeloRegistro.crearRegistro(req.body, qrUrl);
       res.status(200).json({ message: 'Registro creado correctamente.' });
     } catch (error) {
       console.error(error);
@@ -56,7 +61,7 @@ export class ControladorProducto {
       const { registro_id } = req.params;
       const { id, nombre, descripcion, departamento, estado, observaciones, encargado } = req.body;
       validarCampos(id, nombre, descripcion, departamento, estado, observaciones, encargado);
-      const existeProducto = await ModeloProducto.buscarPorId(id);
+      const existeProducto = await ModeloRegistro.buscarPorId(id);
 
       if (existeProducto && String(existeProducto.registro_id) !== registro_id) {
         return res.status(400).json({ error: `El ID ${id} ya está registrado en otro registro.` });
@@ -65,7 +70,7 @@ export class ControladorProducto {
       const ipServidor = await obtenerIpServidor();
       const qrText = `http://${ipServidor}:${3000}/registros/${id}`;
       const qrUrl = await QRCode.toDataURL(qrText);
-      await ModeloProducto.actualizarRegistro(registro_id, qrUrl, req.body);
+      await ModeloRegistro.actualizarRegistro(registro_id, qrUrl, req.body);
       res.status(200).json({ message: 'Registro actualizado correctamente.' });
     } catch (error) {
       console.error(error);
@@ -77,7 +82,7 @@ export class ControladorProducto {
   async eliminar(req, res) {
     try {
       const { registro_id } = req.params;
-      await ModeloProducto.eliminarRegistro(registro_id);
+      await ModeloRegistro.eliminarRegistro(registro_id);
       res.status(200).json({ message: 'Registro eliminado correctamente.' });
     } catch (error) {
       console.error(error);
