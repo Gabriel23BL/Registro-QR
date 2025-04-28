@@ -14,4 +14,13 @@ export class ModeloUsuario {
     }
 }
 
+    static async listarUsuarios(){
+        const db = await conexion();
+        try {
+            return await db.all('SELECT * FROM usuarios');
+        } catch (error) {
+            throw error;
+        }
+    }
+
 }

@@ -25,6 +25,11 @@ rutas.post('/registrar/:registro_id/delete', authenticateJWT,  checkRole(['Admin
 }
 );
 
+rutas.get('/logout', authenticateJWT, async (req, res) => {
+  await controladorUsuario.logout(req, res);
+});
+
+
 rutas.get('/registros/:id', async (req, res) => {
   await controlador.listarporId(req, res);
 });

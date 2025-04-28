@@ -17,4 +17,13 @@ export class ControladorUsuario {
         res.cookie('jwt', tokenAuth);
         res.redirect('/');
     }
+
+    
+
+
+    async logout(req, res) {
+        res.clearCookie('jwt');
+        res.redirect('/login');
+    }
+
 }
