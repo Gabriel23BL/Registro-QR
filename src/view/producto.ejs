@@ -1,0 +1,61 @@
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/css/styles.css">
+  <title>Detalle del Registro</title>
+</head>
+
+<body class="bg-gray-100">
+  <!-- Header -->
+  <header class="bg-blue-900 py-4">
+    <div class="container mx-auto flex items-center justify-center">
+        <div class="imgLogo mb-4">
+            <img class="imgLogo w-20 mx-auto" src="/images/logo.jpg" alt="Logo">
+        </div>
+    </div>
+  </header>
+
+  <main class="mx-auto mt-8 p-4 max-w-2xl">
+    <div class="bg-white shadow-md rounded-lg overflow-hidden">
+      <div class="p-6">
+        <h2 class="text-2xl font-semibold text-gray-800 mb-4">
+          Detalles del Registro <span class="text-blue-500">#<%= registro.id %></span>
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Información del Producto -->
+          <div>
+            <p class="mb-2"><span class="font-semibold">ID:</span> <%= registro.id %></p>
+            <p class="mb-2"><span class="font-semibold">Nombre:</span> <%= registro.nombre %></p>
+            <p class="mb-2"><span class="font-semibold">Descripción:</span> <%= registro.descripcion %></p>
+            <p class="mb-2"><span class="font-semibold">Departamento:</span> <%= registro.departamento %></p>
+            <p class="mb-2"><span class="font-semibold">Estado:</span> <%= registro.estado %></p>
+            <p class="mb-2"><span class="font-semibold">Observaciones:</span> <%= registro.observaciones || 'N/A' %></p>
+            <p class="mb-2"><span class="font-semibold">Encargado:</span> <%= registro.encargado %></p>
+          </div>
+
+          <!-- Código QR -->
+          <div class="flex flex-col items-center justify-center">
+            <h3 class="font-semibold mb-2">Código QR</h3>
+            <% if (registro.qrUrl) { %>
+              <img src="<%= registro.qrUrl %>" alt="Código QR" class="h-40 w-40">
+            <% } else { %>
+              <p class="text-gray-500">No disponible</p>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="mt-12 text-center text-white">
+    <p>© 2025 Registro Contraloría.</p>
+  </footer>
+
+  <script src="/js/script.js"></script>
+</body>
+
+</html>

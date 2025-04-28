@@ -1,0 +1,55 @@
+import { conexion } from '../db/conexion.js';
+
+export class ModeloProducto {
+  static async obtenerRegistros() {
+    try {
+      const db = await conexion();
+      return await db.all("SELECT * FROM registrosQr");
+    } catch (error) {
+      console.error("[Modelo] Error en la consulta:", error.message);
+      throw error;
+    }
+  }
+
+  static async crearRegistro(datos, qrUrl) {
+    try {
+      const db = await conexion();
+      const sql = `INSERT INTO registrosQr (id, nombre, descripcion, qrUrl, departamento, estado, observaciones,  encargado) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
+      const params = [datos.id, datos.nombre, datos.descripcion, qrUrl, datos.departamento, datos.status, datos.observaciones, datos.encargado];
+      await db.run(sql, params);
+    } catch (error) {
+      console.error("[Modelo] Error al crear el registro:", error.message);
+      throw error;
+    }
+  }
+
+  static async actualizarRegistro(registro_id, qrUrl, datos) {
+    try {
+      const db = await conexion();
+      const sql = `UPDATE registrosQr SET id = ?, nombre = ?, descripcion = ?, departamento = ?, qrUrl = ?, estado = ?, observaciones = ?, encargado = ? WHERE registro_id = ?`;
+      const params = [datos.id,datos.nombre, datos.descripcion, datos.departamento, qrUrl, datos.estado, datos.observaciones, datos.encargado, registro_id];
+      await db.run(sql, params);
+    } catch (error) {
+      console.error("[Modelo] Error al actualizar el registro:", error.message);
+      throw error;
+    }
+  }
+
+  static async eliminarRegistro(registro_id) {
+    try {
+      const db = await conexion();
+      const sql = `DELETE FROM registrosQr WHERE registro_id = ?`;
+      await db.run(sql, [registro_id]);
+    } catch (error) {
+      console.error("[Modelo] Error al eliminar el registro:", error.message);
+      throw error;
+    }
+  }
+
+  static async buscarPorId(id) {
+    const db = await conexion();
+    const [resultado] = await db.all('SELECT * FROM registrosQr WHERE id = ?', [id]);
+    return resultado;
+  }
+
+}

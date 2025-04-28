@@ -1,0 +1,175 @@
+/*Colores*/
+:root {
+    --blanco: rgb(255,255,254);
+    --aqua: rgb(0, 255, 191);
+    --aqua2: rgb(0, 255, 200);
+    --azul: rgb(7, 7, 199);
+    --azul2: rgb(0, 162, 255);
+    --azul3: rgb(0, 217, 255);
+    --azulMarino: rgb(6, 6, 131);
+    --verde: rgb(22, 207, 22);
+    --verde2: rgb(0, 255, 0);
+    --rojo: rgb(212, 48, 48);
+    --rojo2: rgb(255, 0, 0);
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to bottom, var(--aqua2), var(--azulMarino));
+}
+
+
+/*titulo*/
+.tituloVista {
+    text-align: center;
+    color: var(--azul);
+    font-size: 15px;
+}
+
+
+/*Imagenes*/
+.imgLogo {
+    display: block;
+    margin: 0 auto;
+    width: 100px;
+    height: auto;
+    border-radius: 50px;
+}
+
+.imgLogo2 {
+    display: block;
+    width: 70px;
+    height: auto;
+    border-radius: 50px;
+}
+
+.imgQr {
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+    width: 70px;
+    height: 70px;
+    
+}
+
+/*formulario*/
+.formulario {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--azulMarino);
+    height: 640px;
+    width: 800px;
+    margin: 0 auto;
+    border-radius: 10px;
+    padding: 20px;
+
+}
+
+
+/*Botones*/
+.btnAccionEditar {
+    display: flex;
+    width: 50px;
+    height: 50px;
+    margin-top: 7px;
+    background-color: var(--azul2);
+    justify-content: center;
+    border-radius: 50px;
+}
+    .btnAccionEditar:hover {
+        background-color: var(--azul3);
+    }
+
+
+.btnAccionEliminar {
+    display: flex;
+    width: 50px;
+    height: 50px;
+    margin-top: 7px;
+    background-color: var(--rojo);
+    justify-content: center;
+    border-radius: 50px;
+}
+    .btnAccionEliminar:hover {
+        background-color: var(--rojo2);
+    }
+
+
+.btnRegistro {
+    display: block;
+    margin: 0 auto;
+    width: 200px;
+    border-radius: 5px;
+    background-color: var(--verde);
+    color: white;
+    border: none;
+    cursor: pointer;
+
+}
+    .btnRegistro:hover {
+        background-color: var(--verde2);
+    }
+
+
+.btnPdf {
+    width: 200px;
+    border-radius: 5px;
+    background-color: var(--rojo);
+    color: white;
+    border: none;
+    cursor: pointer;
+
+}
+    .btnPdf:hover {
+        background-color: var(--rojo2);
+    }
+
+.btnBuscar {
+    width: 50px;
+    border-radius: 5px;
+    background-color: var(--verde);
+    justify-content: center;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+
+}
+    .btnBuscar:hover {
+        background-color: var(--verde2);
+    }
+
+/*pie*/    
+.pieDePagina { 
+  
+    height: 100px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal {
+    transition: opacity 0.3s ease;
+}
+
+.bg-opacity-50 {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+
+.btnAccionEliminar {
+    background-color: #dc2626;
+    transition: background-color 0.2s;
+}
+
+.btnAccionEliminar:hover {
+    background-color: #b91c1c;
+}
+
+#deleteModal {
+    animation: fadeIn 0.3s;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
