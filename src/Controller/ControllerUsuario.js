@@ -82,6 +82,7 @@ export class ControladorUsuario {
             const { nombre, correo, rol, password, cedula } = req.body;
             const auditoriaRegistro = new ControladorAuditoria();
 
+
             if (!req.body || Object.keys(req.body).length === 0) {
                 throw new ValidationError('Cuerpo de solicitud vacío');
             }
@@ -120,6 +121,8 @@ export class ControladorUsuario {
             if (cambios.length === 0) {
                 return res.status(200).json({ message: 'No se realizaron cambios en el usuario.' });
             }
+
+
 
             const fechaToday = await formatoFecha();
             await ModeloUsuario.actualizarUsuario(nombre, correo, hashedPassword, rol, cedula, id);
