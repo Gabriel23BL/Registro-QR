@@ -4,7 +4,7 @@ export class ModeloRegistro {
   static async obtenerRegistros() {
     try {
       const db = await conexion();
-      return await db.all("SELECT * FROM registrosQr");
+      return await db.all("SELECT r.*, d.id AS departamento_id, d.nombre AS departamento_nombre FROM registrosQr r LEFT JOIN Departamento d ON r.departamento_id = d.id");
     } catch (error) {
       console.error("[Modelo] Error en la consulta:", error.message);
       throw error;
@@ -14,8 +14,8 @@ export class ModeloRegistro {
   static async crearRegistro(datos, qrUrl) {
     try {
       const db = await conexion();
-      const sql = `INSERT INTO registrosQr (id, nombre, descripcion, qrUrl, departamento, estado, observaciones,  encargado) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
-      const params = [datos.id, datos.nombre, datos.descripcion, qrUrl, datos.departamento, datos.status, datos.observaciones, datos.encargado];
+      const sql = `INSERT INTO registrosQr (id, nombre, descripcion, qrUrl, estado, observaciones, encargado, departamento_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
+      const params = [datos.id, datos.nombre, datos.descripcion, qrUrl, datos.status, datos.observaciones, datos.encargado, datos.departamento_id];
       await db.run(sql, params);
     } catch (error) {
       console.error("[Modelo] Error al crear el registro:", error.message);
@@ -48,8 +48,19 @@ export class ModeloRegistro {
 
   static async buscarPorId(id) {
     const db = await conexion();
-    const [resultado] = await db.all('SELECT * FROM registrosQr WHERE id = ?', [id]);
+    const [resultado] = await db.all('SELECT r.*, d.id AS departamento_id, d.nombre AS departamento_nombre FROM registrosQr r LEFT JOIN Departamento d ON r.departamento_id = d.id WHERE r.id = ?', [id]);
     return resultado;
+  }
+
+  static async buscarDepartamento(){
+    try {
+      const db = await conexion();
+      const sql = `SELECT * FROM Departamento`;
+      return await db.all(sql);
+    } catch (error) {
+      console.error("[Modelo] Error en la consulta:", error.message);
+      throw error;
+    }
   }
 
 

@@ -8,23 +8,25 @@ export class ControladorRegistro {
   async listar(req, res) {
     try {
       const registros = await ModeloRegistro.obtenerRegistros();
+      const departamentos = await ModeloRegistro.buscarDepartamento();
       for (const registro of registros) {
         const ipServidor = await obtenerIpServidor();
         const qrText = `http://${ipServidor}:${3000}/registros/${registro.id}`;
         const qrUrl = await QRCode.toDataURL(qrText);
         await ModeloRegistro.qrUpdate(registro.id, qrUrl);
       }
+
       res.render("index", {
         registros,
         nombre: req.user.nombre,
         email: req.user.email,
         rol: req.user.rol,
+        departamentos,
       });
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
   }
-
 
 
   async listarporId(req, res) {
@@ -43,8 +45,9 @@ export class ControladorRegistro {
 
   async crear(req, res) {
     try {
-      const { id, nombre, descripcion, departamento, status, observaciones, encargado } = req.body;
-      validarCampos(id, nombre, descripcion, departamento, status, observaciones, encargado);
+      const { id, nombre, descripcion, status, observaciones, encargado, departamento_id } = req.body;
+      console.log(req.body);
+      validarCampos(id, nombre, descripcion, status, observaciones, encargado, departamento_id);
       const existeRegistro = await ModeloRegistro.buscarPorId(id);
       if (existeRegistro) {
         return res.status(400).json({ error: `El ID ${id} ya está registrado en otro registro.` });
