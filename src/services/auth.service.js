@@ -1,14 +1,21 @@
 import bcrypt from 'bcrypt';
 import { ModeloUsuario } from '../Model/ModeloUsuario.js';
+import { AuthenticationError } from '../utils/Errors.js'; // Importa el error personalizado
 
-export const authenticateUser = async (res, email, password) => {
-    const usuario = await ModeloUsuario.obtenerPorEmail(email);
-    if (!usuario) {
-        return res.status(404).json({ error: 'Credenciales invalidas' });
+export const authenticateUser = async (email, password) => {
+    try {
+        const usuario = await ModeloUsuario.obtenerPorEmail(email);
+        if (!usuario) {
+            throw new AuthenticationError('Usuario o contraseña incorrectas.');
+        }
+
+        const match = await bcrypt.compare(password, usuario.contraseña);
+        if (!match) {
+            throw new AuthenticationError('Usuario o contraseña incorrectas.');
+        }
+        return usuario;
+    } catch (error) {
+        console.error('Error en autenticación:', error.message);
+        throw error; 
     }
-    const match = await bcrypt.compare(password, usuario.contraseña);
-    if (!match) {
-        return res.status(404).json({ error: 'Credenciales invalidas' });
-    }
-    return usuario;
 };

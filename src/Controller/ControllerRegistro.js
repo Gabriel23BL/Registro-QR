@@ -15,7 +15,6 @@ export class ControladorRegistro {
         rol: req.user.rol,
       });
     } catch (error) {
-      console.log(error)
       res.status(500).json({ error: error.message });
     }
   }
