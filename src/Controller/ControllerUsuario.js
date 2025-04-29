@@ -58,8 +58,6 @@ export class ControladorUsuario {
 
             try {
                 const fechaToday = await formatoFecha();
-                console.log("Fecha generada:", fechaToday); 
-
                 const auditoriaRegistro = new ControladorAuditoria();
                 console.log("Controlador de auditoría instanciado"); 
                 await auditoriaRegistro.registrarCambiosUsuario(
@@ -70,16 +68,11 @@ export class ControladorUsuario {
                     req.user.cedula,
                     fechaToday
                 );
-                console.log("Auditoría registrada exitosamente"); 
             } catch (error) {
                 console.error("Error en auditoría:", error); 
                 throw error; 
             }
             res.status(200).json({ message: 'Usuario creado exitosamente.' });
-
-
-
-
         } catch (error) {
             if (error.code === 'SQLITE_CONSTRAINT' && error.message.includes('usuarios.cedula')) {
                 res.status(500).json({ error: 'La cédula ya está registrada en el sistema' });
