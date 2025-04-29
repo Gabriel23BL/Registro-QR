@@ -15,16 +15,22 @@
 
 body {
     font-family: Arial, sans-serif;
-    
+    background: linear-gradient(to bottom, var(--aqua2), var(--azulMarino));
 }
 
+.bodyResult { 
+    background: linear-gradient(to bottom, var(--aqua2), var(--azulMarino));
+}
 
+/*titulo*/
 .tituloVista {
     text-align: center;
     color: var(--azul);
     font-size: 15px;
 }
 
+
+/*Imagenes*/
 .imgLogo {
     display: block;
     margin: 0 auto;
@@ -51,6 +57,7 @@ body {
     
 }
 
+/*formulario*/
 .formulario {
     display: flex;
     flex-direction: column;
@@ -63,6 +70,8 @@ body {
 
 }
 
+
+/*Botones*/
 .btnAccionEditar {
     display: flex;
     width: 50px;
