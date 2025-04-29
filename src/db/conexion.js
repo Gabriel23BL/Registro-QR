@@ -9,9 +9,11 @@ export const conexion = async () => {
         filename: './src/db/contraloriaQr.db',
         driver: sqlite3.Database
       });
+
       await conexionActiva.exec('PRAGMA foreign_keys = ON;');
 /*
-      
+
+      await conexionActiva.exec('PRAGMA foreign_keys = ON;');
       await conexionActiva.exec(`CREATE TABLE IF NOT EXISTS Departamento (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         nombre TEXT NOT NULL UNIQUE
@@ -32,8 +34,7 @@ export const conexion = async () => {
         observaciones TEXT NOT NULL,
         encargado TEXT NOT NULL,
         departamento_id INTEGER,
-        FOREIGN KEY (departamento_id) REFERENCES Departamento(id)
-        
+        FOREIGN KEY (departamento_id) REFERENCES Departamento(id) ON DELETE CASCADE 
       )`);
 */
 
