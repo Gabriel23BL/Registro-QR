@@ -1,6 +1,4 @@
 const modal = document.getElementById('editModal');
-
-
 function mostrarAlerta(mensaje, color = 'bg-green-500') {
     const alerta = document.getElementById('alertaBonita');
     const texto  = document.getElementById('mensajeAlerta');
@@ -18,9 +16,6 @@ function mostrarAlerta(mensaje, color = 'bg-green-500') {
 
 function openEditModal(DateID, id, nombre, descripcion, departamento, estado, observaciones, encargado) {
     document.getElementById('editDateID').value = DateID;
-
-    console.log('editDateID', DateID);
-    console.log('editNombre', nombre);
     document.getElementById('editId').value = id;
     document.getElementById('editNombre').value = nombre;
     document.getElementById('editDescripcion').value = descripcion;

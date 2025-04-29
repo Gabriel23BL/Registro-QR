@@ -26,7 +26,7 @@ export class ControladorRegistro {
       if (!registro) {
         return res.status(404).json({ error: 'Registro no encontrado' });
       }
-      res.render('producto', { registro });
+      res.render('registros', { registro });
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: error.message });
@@ -37,8 +37,8 @@ export class ControladorRegistro {
     try {
       const { id, nombre, descripcion, departamento, status, observaciones, encargado } = req.body;
       validarCampos(id, nombre, descripcion, departamento, status, observaciones, encargado);
-      const existeProducto = await ModeloRegistro.buscarPorId(id);
-      if (existeProducto) {
+      const existeRegistro = await ModeloRegistro.buscarPorId(id);
+      if (existeRegistro) {
         return res.status(400).json({ error: `El ID ${id} ya está registrado en otro registro.` });
       }
       // const qrText = `${req.protocol}://${req.get('host')}/registros/${id}`;

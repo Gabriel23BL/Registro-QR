@@ -13,16 +13,14 @@ export const authenticateJWT = (req, res, next) => {
     }
 };
 
-
 export const authenticateJWTLogin = (req, res, next) => {
     req.cookies.jwt ? res.redirect('/') : next();
 };
 
-
 export const checkRole = (rolesPermitidos) => {
     return (req, res, next) => {
         if (!rolesPermitidos.includes(req.user.rol)) {
-            return res.direct('/')
+            return res.redirect('/')
         }
         next();
     };

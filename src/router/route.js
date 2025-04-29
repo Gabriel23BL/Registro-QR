@@ -10,6 +10,30 @@ rutas.get("/", authenticateJWT, async (req, res) => {
   await controlador.listar(req, res);
 });
 
+rutas.get("/usuarios", authenticateJWT, checkRole(['Administrador']), async (req, res) => {
+  await controladorUsuario.mostrarUsuarios(req, res);
+}
+);
+
+rutas.post("/usuarios", authenticateJWT, checkRole(['Administrador']), async (req, res) => {
+  await controladorUsuario.agregarUsuario(req, res);
+}
+);
+
+rutas.post("/usuario/update/:id", authenticateJWT, checkRole(['Administrador']), async (req, res) => {
+  await controladorUsuario.actualizarUsuario(req, res);
+}
+);
+
+rutas.post("/usuarios/agregar", async (req, res) => {
+  await controladorUsuario.agregarUsuario(req, res);
+}
+);
+
+rutas.post('/usuarios/eliminar/:id', authenticateJWT, checkRole(['Administrador']), async (req, res) => {
+  await controladorUsuario.eliminarUsuario(req, res);
+})
+
 rutas.post('/registrar', authenticateJWT, checkRole(['Administrador']), async (req, res) => {
   await controlador.crear(req, res);
 }
@@ -45,3 +69,5 @@ rutas.post('/login', authenticateJWTLogin, async (req, res) => {
 rutas.post('/pdf', async (req, res) => {
   await controlador.generatePDF(req, res);
 });
+
+
