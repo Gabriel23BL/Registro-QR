@@ -10,6 +10,7 @@ export const conexion = async () => {
         driver: sqlite3.Database
       });
 
+
       return conexionActiva;
     } catch (error) {
       console.error('Error de conexión:', error);

@@ -14,6 +14,19 @@ export class ModeloUsuario {
         }
     }
 
+
+    static async obtenerPorId(id) {
+        const db = await conexion();
+        try {
+            return await db.get(
+                'SELECT * FROM usuarios WHERE id = ?',
+                [id]
+            );
+        } catch (error) {
+            throw error;
+        }
+    }
+
     static async listarUsuarios() {
         const db = await conexion();
         try {

@@ -1,10 +1,13 @@
 import { Router } from "express";
 import { ControladorRegistro } from "../Controller/ControllerRegistro.js";
 import { ControladorUsuario } from "../Controller/ControllerUsuario.js";
+import { ControladorAuditoria } from "../Controller/ControllerAuditoria.js";
 import { authenticateJWT, authenticateJWTLogin, checkRole } from "../middlewares/authMiddleware.js";
 export const rutas = Router();
 const controlador = new ControladorRegistro();
 const controladorUsuario = new ControladorUsuario();
+const controladorAuditoria = new ControladorAuditoria();
+
 
 rutas.get("/", authenticateJWT, async (req, res) => {
   await controlador.listar(req, res);
@@ -17,6 +20,11 @@ rutas.get("/usuarios", authenticateJWT, checkRole(['Administrador']), async (req
 
 rutas.post("/usuarios", authenticateJWT, checkRole(['Administrador']), async (req, res) => {
   await controladorUsuario.agregarUsuario(req, res);
+}
+);
+
+rutas.get("/auditoria", authenticateJWT, checkRole(['Administrador']), async (req, res) => {
+  await controladorAuditoria.mostrarAuditoria(req, res);
 }
 );
 

@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import { ModeloUsuario } from '../Model/ModeloUsuario.js';
-import { AuthenticationError } from '../utils/Errors.js'; // Importa el error personalizado
+import { AuthenticationError } from '../utils/Errors.js';
 
 export const authenticateUser = async (email, password) => {
     try {
