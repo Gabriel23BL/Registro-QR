@@ -8,6 +8,12 @@ export class ControladorRegistro {
   async listar(req, res) {
     try {
       const registros = await ModeloRegistro.obtenerRegistros();
+      for (const registro of registros) {
+        const ipServidor = await obtenerIpServidor();
+        const qrText = `http://${ipServidor}:${3000}/registros/${registro.id}`;
+        const qrUrl = await QRCode.toDataURL(qrText);
+        await ModeloRegistro.qrUpdate(registro.id, qrUrl);
+      }
       res.render("index", {
         registros,
         nombre: req.user.nombre,
@@ -18,6 +24,8 @@ export class ControladorRegistro {
       res.status(500).json({ error: error.message });
     }
   }
+
+
 
   async listarporId(req, res) {
     try {
@@ -45,7 +53,6 @@ export class ControladorRegistro {
       const ipServidor = await obtenerIpServidor();
       const qrText = `http://${ipServidor}:${3000}/registros/${id}`;
       const qrUrl = await QRCode.toDataURL(qrText);
-
       await ModeloRegistro.crearRegistro(req.body, qrUrl);
       res.status(200).json({ message: 'Registro creado correctamente.' });
     } catch (error) {

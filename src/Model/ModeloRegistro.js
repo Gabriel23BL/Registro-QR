@@ -52,6 +52,18 @@ export class ModeloRegistro {
     return resultado;
   }
 
+
+  static async qrUpdate(id, qrUrl) {
+    try {
+      const db = await conexion();
+      const sql = `UPDATE registrosQr SET qrUrl = ? WHERE id = ?`;
+      await db.run(sql, [qrUrl, id]);
+    } catch (error) {
+      console.error("[Modelo] Error al actualizar el QR:", error.message);
+      throw error;
+    }
+  }
+
 }
 
 
