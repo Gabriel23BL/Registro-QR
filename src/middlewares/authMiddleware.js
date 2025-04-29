@@ -9,7 +9,20 @@ export const authenticateJWT = (req, res, next) => {
         req.user = decoded;
         next();
     } catch (error) {
-        return res.status(401).json({ error: 'Token inválido o expirado' });
+        // Manejar token expirado
+        if (error instanceof jwt.TokenExpiredError) {
+            // Eliminar la cookie del cliente
+            res.clearCookie('jwt');
+            return res.redirect('/login');
+        }
+
+        if (error instanceof jwt.JsonWebTokenError) {
+            res.clearCookie('jwt');
+            return res.redirect('/login');
+        }
+
+        console.error('Error de autenticación:', error);
+        res.redirect('/login');
     }
 };
 

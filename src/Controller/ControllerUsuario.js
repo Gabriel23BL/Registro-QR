@@ -104,8 +104,6 @@ export class ControladorUsuario {
     }
 
 
-
-
     async mostrarUsuarios(req, res) {
         try {
             const usuarios = await ModeloUsuario.listarUsuarios();

@@ -1,4 +1,6 @@
 import jwt from 'jsonwebtoken';
+import 'dotenv/config';
+
 export const generateAuthToken = (payload) => {
     return jwt.sign(
         payload,
