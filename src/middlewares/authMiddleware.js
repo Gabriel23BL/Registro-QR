@@ -9,9 +9,7 @@ export const authenticateJWT = (req, res, next) => {
         req.user = decoded;
         next();
     } catch (error) {
-        // Manejar token expirado
         if (error instanceof jwt.TokenExpiredError) {
-            // Eliminar la cookie del cliente
             res.clearCookie('jwt');
             return res.redirect('/login');
         }
