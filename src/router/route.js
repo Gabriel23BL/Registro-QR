@@ -67,17 +67,16 @@ rutas.post('/usuarios/eliminar/:id', authenticateJWT, checkRole(['Administrador'
   await controladorUsuario.eliminarUsuario(req, res);
 })
 
-rutas.post('/registrar', authenticateJWT, checkRole(['Administrador']), async (req, res) => {
+rutas.post('/registrar', authenticateJWT, async (req, res) => {
   await controlador.crear(req, res);
 }
 );
 
-rutas.post('/registrar/:registro_id/update', authenticateJWT, checkRole(['Administrador']), async (req, res) => {
+rutas.post('/registrar/:registro_id/update', authenticateJWT, async (req, res) => {
   await controlador.actualizar(req, res);
 });
 
-
-rutas.post('/registrar/:registro_id/delete', authenticateJWT,  checkRole(['Administrador']), async (req, res) => {
+rutas.post('/registrar/:registro_id/delete', authenticateJWT, async (req, res) => {
   await controlador.eliminar(req, res);
 }
 );
