@@ -30,18 +30,18 @@ export class ModeloUsuario {
     static async listarUsuarios() {
         const db = await conexion();
         try {
-            return await db.all('SELECT * FROM usuarios');
+            return await db.all('SELECT usuarios.*, Departamento.nombre AS departamento_nombre FROM usuarios LEFT JOIN Departamento ON usuarios.departamento_id = Departamento.id;');
         } catch (error) {
             throw error;
         }
     }
 
-    static async crearUsuario(cedula, nombre, correo, contraseña, rol) {
+    static async crearUsuario(cedula, nombre, correo, hashedPassword, rol, departamento_id) {
         const db = await conexion();
         try {
             const result = await db.run(
-                'INSERT INTO usuarios (cedula, nombre, correo, contraseña, rol) VALUES (?, ?, ?, ?, ?)',
-                [cedula, nombre, correo, contraseña, rol]
+                'INSERT INTO usuarios (cedula, nombre, correo, contraseña, rol, departamento_id) VALUES (?, ?, ?, ?, ?, ?)',
+                [cedula, nombre, correo, hashedPassword, rol, departamento_id]
             );
             return result;
         } catch (error) {
@@ -63,12 +63,12 @@ export class ModeloUsuario {
         }
     }
 
-    static async actualizarUsuario(nombre, correo, contraseña, rol, cedula, id) {
+    static async actualizarUsuario(nombre, correo, rol, cedula, contraseña, departamento_id, id) {
         const db = await conexion();
         try {
             const result = await db.run(
-                'UPDATE usuarios SET nombre = ?, correo = ?, contraseña = ?, rol = ?, cedula = ? WHERE id = ?',
-                [nombre, correo, contraseña, rol, cedula, id]
+                'UPDATE usuarios SET nombre = ?, correo = ?, rol = ?, cedula = ?, contraseña = ?, departamento_id = ? WHERE id = ?',
+                [nombre, correo, rol, cedula, contraseña, departamento_id, id]
             );
             return result;
         } catch (error) {

@@ -23,12 +23,13 @@ function closeAddUserModal() {
     document.getElementById('addUserModal').classList.add('hidden');
 }
 
-function openEditUserModal(id, nombre, correo, cedula, rol) {
+function openEditUserModal(id, nombre, correo, cedula, rol, departamento) {
     document.getElementById('editUserId').value = id;
     document.getElementById('editUserNombre').value = nombre;
     document.getElementById('editUserCorreo').value = correo;
     document.getElementById('editUserCedula').value = cedula;
     document.getElementById('editUserRol').value = rol;
+    document.getElementById('editUserDepartamento').value = departamento;
     document.getElementById('editUserModal').classList.remove('hidden');
 }
 
@@ -108,7 +109,7 @@ document.getElementById('editUserForm').addEventListener('submit', async functio
         Array.from(new FormData(e.target))
             .map(([key, value]) => [
                 key,
-                typeof value === 'string' ? value.trim() : value
+                typeof value === 'string' ? value.trim() : value,
             ])
     );
 

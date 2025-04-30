@@ -2,6 +2,8 @@ import { authenticateUser } from '../services/auth.service.js';
 import { generateAuthToken } from '../utils/Jwt.js';
 import { ModeloUsuario } from '../Model/ModeloUsuario.js';
 import { ControladorAuditoria } from './ControllerAuditoria.js';
+import { ModelDepartamento } from '../Model/ModelDepartamento.js';
+
 import { formatoFecha } from '../utils/Fecha.js';
 import bcrypt from 'bcrypt';
 import { AuthenticationError, ValidationError } from '../utils/Errors.js';
@@ -48,15 +50,14 @@ export class ControladorUsuario {
             if (!req.body || Object.keys(req.body).length === 0) {
                 throw new ValidationError('Cuerpo de solicitud vacío');
             }
-            const { nombre, correo, cedula, rol, password } = req.body;
-            if (!nombre || !correo || !cedula || !rol || !password) {
+            const { nombre, correo, cedula, rol, password, departamento } = req.body;
+
+            if (!nombre || !correo || !cedula || !rol || !password || !departamento) {
                 throw new ValidationError('Todos los campos son requeridos');
             }
-
             const hashedPassword = await bcrypt.hash(password, 10);
-            await ModeloUsuario.crearUsuario(cedula, nombre, correo, hashedPassword, rol);
-
             try {
+                await ModeloUsuario.crearUsuario(cedula, nombre, correo, hashedPassword, rol, departamento);
                 const fechaToday = await formatoFecha();
                 const auditoriaRegistro = new ControladorAuditoria();
                 console.log("Controlador de auditoría instanciado"); 
@@ -69,15 +70,17 @@ export class ControladorUsuario {
                     fechaToday
                 );
             } catch (error) {
-                console.error("Error en auditoría:", error); 
+                console.error(error); 
                 throw error; 
             }
             res.status(200).json({ message: 'Usuario creado exitosamente.' });
         } catch (error) {
-            if (error.code === 'SQLITE_CONSTRAINT' && error.message.includes('usuarios.cedula')) {
-                res.status(500).json({ error: 'La cédula ya está registrada en el sistema' });
-            } else if (error.code === 'SQLITE_CONSTRAINT' && error.message.includes('usuarios.correo')) {
-                res.status(500).json({ error: 'El correo ya está registrado en el sistema' });
+            if (error.code === 'SQLITE_CONSTRAINT') {
+                if (error.message.includes('usuarios.cedula')) {
+                    return res.status(400).json({ error: 'La cédula ya está registrada' });
+                } else if (error.message.includes('usuarios.correo')) {
+                    return res.status(400).json({ error: 'El correo ya está registrado' });
+                }
             }
         }
     }
@@ -117,9 +120,8 @@ export class ControladorUsuario {
         try {
 
             const { id } = req.params;
-            const { nombre, correo, rol, password, cedula } = req.body;
+            const { nombre, correo, rol, password, cedula, departamento } = req.body;
             const auditoriaRegistro = new ControladorAuditoria();
-
 
             if (!req.body || Object.keys(req.body).length === 0) {
                 throw new ValidationError('Cuerpo de solicitud vacío');
@@ -136,7 +138,7 @@ export class ControladorUsuario {
                 hashedPassword = usuario.contraseña;
             }
 
-            if (!cedula || !nombre || !correo || !rol) {
+            if (!cedula || !nombre || !correo || !rol || !departamento) {
                 throw new ValidationError('Todos los campos son requeridos');
             }
 
@@ -147,7 +149,8 @@ export class ControladorUsuario {
                 correo: correo || usuarioExistente.correo,
                 rol: rol || usuarioExistente.rol,
                 cedula: cedula || usuarioExistente.cedula,
-                contraseña: usuarioExistente.contraseña
+                contraseña: usuarioExistente.contraseña,
+                departamento: departamento || usuarioExistente.departamento_id
             };
 
             const cambios = [];
@@ -156,14 +159,13 @@ export class ControladorUsuario {
             if (nuevosDatos.rol !== usuarioExistente.rol) cambios.push('rol');
             if (nuevosDatos.cedula !== usuarioExistente.cedula) cambios.push('cedula');
             if (nuevosDatos.contraseña !== usuarioExistente.contraseña) cambios.push('contraseña');
+            if (nuevosDatos.departamento !== usuarioExistente.departamento) cambios.push('departamento');
             if (cambios.length === 0) {
                 return res.status(200).json({ message: 'No se realizaron cambios en el usuario.' });
             }
 
-
-
             const fechaToday = await formatoFecha();
-            await ModeloUsuario.actualizarUsuario(nombre, correo, hashedPassword, rol, cedula, id);
+            await ModeloUsuario.actualizarUsuario(nombre, correo, rol, cedula, hashedPassword, departamento, id);
             await auditoriaRegistro.registrarCambiosUsuario(
                 'Edición',
                 'Usuarios',
@@ -183,7 +185,8 @@ export class ControladorUsuario {
     async mostrarUsuarios(req, res) {
         try {
             const usuarios = await ModeloUsuario.listarUsuarios();
-            res.render('usuarios', { usuarios });
+            const departamentos = await ModelDepartamento.obtenerDepartamentos() 
+            res.render('usuarios', { usuarios, departamentos });
         } catch (error) {
             console.error(error);
             res.status(500).json({ error: error.message });

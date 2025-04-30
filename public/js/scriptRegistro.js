@@ -14,15 +14,15 @@ function mostrarAlerta(mensaje, color = 'bg-green-500') {
   
 
 
-function openEditModal(DateID, id, nombre, descripcion, departamento, estado, observaciones, encargado) {
+function openEditModal(DateID, id, nombre, descripcion, estado, observaciones, encargado, departamento) {
     document.getElementById('editDateID').value = DateID;
     document.getElementById('editId').value = id;
     document.getElementById('editNombre').value = nombre;
     document.getElementById('editDescripcion').value = descripcion;
-    document.getElementById('editDepartamento').value = departamento;
     document.getElementById('editStatus').value = estado;
     document.getElementById('editObservaciones').value = observaciones;
     document.getElementById('editEncargado').value = encargado;
+    document.getElementById('editDepartamento').value = departamento;
     modal.classList.remove('hidden');
 }
 
@@ -91,6 +91,7 @@ document.getElementById('editForm').addEventListener('submit', async function(e)
       setTimeout(() => window.location.reload(), 1000);
   
     } catch (err) {
+      console.log(err);
       mostrarAlerta(err.error || 'Error desconocido', 'bg-red-500');
     }
   });
