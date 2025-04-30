@@ -1,6 +1,4 @@
 const modal = document.getElementById('editModal');
-
-
 function mostrarAlerta(mensaje, color = 'bg-green-500') {
     const alerta = document.getElementById('alertaBonita');
     const texto  = document.getElementById('mensajeAlerta');
@@ -16,16 +14,15 @@ function mostrarAlerta(mensaje, color = 'bg-green-500') {
   
 
 
-function openEditModal(DateID, id, nombre, descripcion, departamento, estado, observaciones, encargado) {
+function openEditModal(DateID, id, nombre, descripcion, estado, observaciones, encargado, departamento) {
     document.getElementById('editDateID').value = DateID;
-    console.log(DateID)
     document.getElementById('editId').value = id;
     document.getElementById('editNombre').value = nombre;
     document.getElementById('editDescripcion').value = descripcion;
-    document.getElementById('editDepartamento').value = departamento;
     document.getElementById('editStatus').value = estado;
     document.getElementById('editObservaciones').value = observaciones;
     document.getElementById('editEncargado').value = encargado;
+    document.getElementById('editDepartamento').value = departamento;
     modal.classList.remove('hidden');
 }
 
@@ -36,8 +33,13 @@ function closeModal() {
 document.getElementById('registroForm').addEventListener('submit', async function(e) {
     e.preventDefault();
     const form = e.target;
-    const data = Object.fromEntries(new FormData(form).entries());
-  
+    const data = Object.fromEntries(
+      Array.from(new FormData(form))
+          .map(([key, value]) => [
+              key, 
+              typeof value === 'string' ? value.trim() : value
+          ])
+  );
     try {
       const res = await fetch(form.action, {
         method: 'POST',
@@ -68,7 +70,13 @@ document.getElementById('editForm').addEventListener('submit', async function(e)
     const formData = new FormData(e.target); 
     const dataId = formData.get('DateID');
     const url = `/registrar/${dataId}/update`;
-    const data = Object.fromEntries(new FormData(e.target).entries());
+    const data = Object.fromEntries(
+      Array.from(new FormData(e.target))
+          .map(([key, value]) => [
+              key, 
+              typeof value === 'string' ? value.trim() : value
+          ])
+  );
     console.log(data)
     try {
       const res = await fetch(url, {
@@ -83,6 +91,7 @@ document.getElementById('editForm').addEventListener('submit', async function(e)
       setTimeout(() => window.location.reload(), 1000);
   
     } catch (err) {
+      console.log(err);
       mostrarAlerta(err.error || 'Error desconocido', 'bg-red-500');
     }
   });

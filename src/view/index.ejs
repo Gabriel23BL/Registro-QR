@@ -10,163 +10,256 @@
     <title>Registro</title>
 </head>
 
-<body>
-    <main>
+<body class="bg-blue-800">
+
+    <div class="md:hidden fixed bottom-0 w-full bg-gray-800 shadow-lg z-30">
+        <div class="flex justify-around p-2">
+            <% if (rol==='Administrador' ) { %>
+                <a href="/usuarios" class="p-2 text-white transition-colors">
+                    <i class="bi bi-people-fill text-2xl"></i>
+                </a>
+                <a href="/auditoria" class="p-2 text-white transition-colors">
+                    <i class="bi bi-clipboard-check text-2xl "></i>
+                </a>
+                <a href="/departamentos" class="p-2 text-white transition-colors">
+                    <i class="bi bi-buildings text-2xl "></i>
+                </a>
+                <% } %>
+                    <a href="/logout" class="p-2 text-red-600 transition-colors">
+                        <i class="bi bi-box-arrow-right text-2xl"></i>
+                    </a>
+        </div>
+    </div>
+
+    <div id="sidebar"
+        class="fixed inset-y-0 left-0 transform -translate-x-full md:translate-x-0 w-64 bg-gray-800 text-white transition-transform duration-300 ease-in-out z-30">
+        <div class="flex items-center justify-between p-4 border-b border-gray-700">
+            <div class="flex items-center">
+                <img src="/images/logo.jpg" alt="Logo" class="h-10 w-10 rounded-full">
+                <span class="ml-3 font-semibold">Contraloría</span>
+            </div>
+            <button id="closeMenu" class="md:hidden text-gray-400 hover:text-white">
+                <i class="bi bi-x-lg"></i>
+            </button>
+        </div>
+
+        <nav class="p-4 space-y-2">
+            <a href="/" class="flex items-center p-2 rounded-lg bg-blue-800 hover:bg-blue-800 transition-colors">
+                <i class="bi bi-house-door mr-3"></i>
+                Inicio
+            </a>
+            <% if (rol==='Administrador' ) { %>
+                <a href="/usuarios" class="flex items-center p-2 rounded-lg  hover:bg-blue-800 transition-colors">
+                    <i class="bi bi-people-fill mr-3"></i>
+                    Usuarios
+                </a>
+                <a href="/auditoria" class="flex items-center p-2 rounded-lg hover:bg-blue-800 transition-colors">
+                    <i class="bi bi-clipboard-check mr-3"></i>
+                    Auditoría
+                </a>
+                <a href="/departamentos" class="flex items-center p-2 rounded-lg hover:bg-blue-800 transition-colors">
+                    <i class="bi bi-buildings mr-3"></i>
+                    Departamentos
+                </a>
+                <% } %>
+                    <div class="border-t border-gray-700 my-2"></div>
+                    <a href="/logout"
+                        class="flex items-center p-2 rounded-lg hover:bg-red-800 hover:text-white transition-colors text-red-400">
+                        <i class="bi bi-box-arrow-right mr-3"></i>
+                        Cerrar Sesión
+                    </a>
+        </nav>
+    </div>
+
+    <main class="flex-1 md:ml-64">
 
         <div id="alertaBonita"
-            class="hidden fixed top-5 right-5 text-white px-6 py-4 rounded-lg shadow-lg animate-fade-in-down z-99999999">
+            class="hidden fixed top-5 right-5 text-white px-6 py-4 rounded-lg shadow-lg animate-fade-in-down z-40">
             <i id="alertIcon" class="bi bi-check-circle mr-2"></i>
             <span id="mensajeAlerta"></span>
         </div>
-        <!--titulo -->
-        <header class="container text-center mb-6  mx-auto p-4">
-            <div class="imgLogo mb-4">
-                <img class="imgLogo w-20 mx-auto" src="/images/logo.jpg" alt="Logo">
-            </div>
-            <h1 class="text-2xl text-white font-bold">Registro de Información Contraloria</h1>
+        <header class="container mx-auto p-4 text-center mt-2">
+            <h1 class="text-2xl text-white font-bold">Registro de Información Contraloría</h1>
         </header>
 
-        <div class="container mx-auto p-4 flex justify-center">
-            <div class="formulario bg-white p-6 rounded shadow-md w-full max-w-md">
-                <form id="registroForm" action="/registrar" method="POST">
-                    <label for="id" class="block text-white ">Número de Identificación:</label>
-                    <input type="text" id="id" name="id" required pattern="\d{3}" maxlength="3"
-                        oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 3)"
-                        title="El ID debe ser un número de exactamente 3 dígitos (ejemplo: 001, 123)"
-                        class="border border-gray-300 p-2 w-full mb-4 rounded">
-                    <label for="nombre" class="block text-white ">Nombre:</label>
-                    <input type="text" id="nombre" name="nombre" required
-                        class="border border-gray-300 p-2 w-full mb-4 rounded">
-
-                    <label for="descripcion" class="block text-white ">Descripción:</label>
-                    <input type="text" id="descripcion" name="descripcion" required
-                        class="border border-gray-300 p-2 w-full mb-4 rounded">
-
-                    <label for="departamento" class="block text-white ">Departamento:</label>
-                    <input type="text" id="departamento" name="departamento" required
-                        class="border border-gray-300 p-2 w-full mb-4 rounded">
-
-                    <label for="status" class="block text-white">Estatus</label>
-                    <select name="status" id="status" class="mb-4"
-                        style="width: 100%; padding: 0.5rem; border-radius: 0.375rem; border: 1px solid #d1d5db; background-color: #fff; color: #374151;"
-                        required>
-                        <option value="">Seleccione el status</option>
-                        <option value="Activo">Activo</option>
-                        <option value="Inactivo">Inactivo</option>
-                    </select>
-                    <label for="comentario" class="block text-white">Observaciones</label>
-                    <input type="text" id="observaciones" name="observaciones"
-                        placeholder="Fue transferido o presenta alguna falla..."
-                        class="border border-gray-300 p-2 w-full mb-4 rounded">
-
-                    <label for="comentario" class="block text-white">Responsable del equipo</label>
-                    <input type="text" id="encargado" name="encargado"
-                        class="border border-gray-300 p-2 w-full mb-4 rounded">
-
-                    <button class="btnRegistro bg-blue-500 text-white px-4 py-2 rounded" type="submit">
-                        Registrar
-                    </button>
-                </form>
+            <% if (departamentos.length===0) { %>
+            <div class="alerta text-red-500 text-center mt-4 text-4xl">
+                <p>No hay departamentos disponibles. Por favor, crea un departamento primero.</p>
             </div>
+            <% }else { %>
+                <div class="container mx-auto p-4 flex justify-center">
+                    <div class="formulario bg-white p-6 rounded shadow-md w-full max-w-md">
+                        <form id="registroForm" action="/registrar" method="POST">
+                            <label for="id" class="block text-white ">Número de Identificación</label>
+                            <input type="text" id="id" name="id" required pattern="\d{3}" maxlength="3"
+                                oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 3)"
+                                title="El ID debe ser un número de exactamente 3 dígitos (ejemplo: 001, 123)"
+                                class="border border-gray-300 p-2 w-full mb-4 rounded">
+                            <label for="nombre" class="block text-white ">Nombre</label>
+                            <input type="text" id="nombre" name="nombre" required
+                                class="border border-gray-300 p-2 w-full mb-4 rounded">
 
-        </div>
+                            <label for="descripcion" class="block text-white ">Descripción</label>
+                            <input type="text" id="descripcion" name="descripcion" required
+                                class="border border-gray-300 p-2 w-full mb-4 rounded">
 
-        <!--Registro-->
-        <div class="m-20 ">
-            <div class="flex items-center">
-                <img src="/images/logo.jpg" alt="Logo" class="imgLogo2 h-10 w-10 mr-2">
-                <h2 class="text-xl text-white font-bold">Lista Registro Contraloria</h2>
-            </div>
-        </div>
+                            <label for="departamento" class="block text-white ">Departamento</label>
+                            <select name="departamento_id" id="departamento" class="mb-4"
+                                style="width: 100%; padding: 0.5rem; border-radius: 0.375rem; border: 1px solid #d1d5db; background-color: #fff;">
+                                <option value="">Seleccione el departamento</option>
+                                <% for (let i=0; i < departamentos.length; i++) { %>
+                                    <option value="<%= departamentos[i].id %>">
+                                        <%= departamentos[i].nombre %>
+                                    </option>
+                                    <% } %>
+                            </select>
 
-        <div class="m-20 flex justify-between">
-            <div class="flex items-center">
-                <!-- Buscador por departamento -->
-                <div class="relative">
-                    <input id="searchDepto" class="border border-gray-300 p-2 rounded" type="text"
-                        placeholder="Escribe el departamento..." autocomplete="off">
-                    <button id="clearSearch" class="absolute right-2 top-2 text-gray-500 hidden">
-                        <i class="bi bi-x-circle"></i>
-                    </button>
+                            <label for="status" class="block text-white">Estado</label>
+                            <select name="status" id="status" class="mb-4"
+                                style="width: 100%; padding: 0.5rem; border-radius: 0.375rem; border: 1px solid #d1d5db; background-color: #fff; color: #374151;"
+                                required>
+                                <option value="">Seleccione el estatus</option>
+                                <option value="Activo">Activo</option>
+                                <option value="Inactivo">Inactivo</option>
+                            </select>
+                            <label for="comentario" class="block text-white">Observaciones</label>
+                            <input type="text" id="observaciones" name="observaciones"
+                                placeholder="Fue transferido o presenta alguna falla..."
+                                class="border border-gray-300 p-2 w-full mb-4 rounded">
+
+                            <label for="comentario" class="block text-white">Responsable</label>
+                            <input type="text" id="encargado" name="encargado"
+                                class="border border-gray-300 p-2 w-full mb-4 rounded" required>
+
+                            <button class="btnRegistro bg-blue-500 text-white px-4 py-2 rounded" type="submit">
+                                Registrar
+                            </button>
+                        </form>
+                    </div>
+
                 </div>
-            </div>
-
-            <% if (registros.length> 0) { %>
-                <div class="flex items-center">
-                    <button class="btnPdf text-white px-4 py-2 rounded" onclick="generatePDF()">
-                        Generar PDF<i class="bi bi-filetype-pdf"></i>
-                    </button>
-                </div>
-                <% }; %>
-        </div>
+            <% } %>
 
 
-        <!-- Tabla de Registro -->
-        <div class=" overflow-x-auto m-20">
-            <div class="registrosContainer">
-                <% if (registros.length> 0) { %>
-                    <table class="min-w-full bg-white border border-gray-300">
+                    <!--Registro-->
+                    <div class="m-20 ">
+                        <div class="flex items-center">
+                            <img src="/images/logo.jpg" alt="Logo" class="imgLogo2 h-10 w-10 mr-2">
+                            <h2 class="text-xl text-white font-bold">Lista Registro Contraloria</h2>
+                        </div>
+                    </div>
 
-                        <thead>
-                            <tr class="bg-blue-900 text-white uppercase text-sm leading-normal">
+                    <div class="m-20 flex justify-between">
+                        <div class="flex items-center">
+                            <div class="relative">
+                                <input id="searchDepto" class="border border-gray-300 p-2 rounded" type="text"
+                                    placeholder="Escribe el departamento..." autocomplete="off">
+                                <button id="clearSearch" class="absolute right-2 top-2 text-gray-500 hidden">
+                                    <i class="bi bi-x-circle"></i>
+                                </button>
+                            </div>
+                        </div>
 
-                                <th class="py-3 px-6 text-left">Número de Identificación</th>
+                        <% if (registros.length> 0) { %>
+                            <div class="flex items-center">
+                                <button class="btnPdf text-white px-4 py-2 rounded" onclick="generatePDF()">
+                                    Generar PDF<i class="bi bi-filetype-pdf"></i>
+                                </button>
+                            </div>
+                            <% }; %>
+                    </div>
 
-                                <th class="py-3 px-6 text-left">Nombre</th>
+                    <div class=" overflow-x-auto m-20">
+                        <div class="registrosContainer">
+                            <% if (registros.length> 0) { %>
+                                <table class="min-w-full bg-white border border-gray-300">
 
-                                <th class="py-3 px-6 text-left">Descripcion</th>
+                                    <thead>
+                                        <tr class="bg-blue-900 text-white uppercase text-sm leading-normal">
 
-                                <th class="py-3 px-6 text-left">Departamento</th>
+                                            <th class="py-3 px-6 text-left">Número de Identificación</th>
 
-                                <th class="py-3 px-6 text-left">Estatus</th>
+                                            <th class="py-3 px-6 text-left">Nombre</th>
 
-                                <th class="py-3 px-6 text-left">Encargado del equipo</th>
+                                            <th class="py-3 px-6 text-left">Descripcion</th>
 
-                                <th class="py-3 px-6 text-left text-center">Codigo QR</th>
+                                            <th class="py-3 px-6 text-left">Departamento</th>
 
-                                <th class="py-3 px-6 text-center">Acciones</th>
+                                            <th class="py-3 px-6 text-left">Estado</th>
 
-                            </tr>
-                        </thead>
+                                            <th class="py-3 px-6 text-left">Responsable</th>
 
-                        <tbody class="text-gray-600 text-sm font-light">
-                            <% for (let i=0; i < registros.length; i++) { %>
-                                <tr class="border-b border-gray-200 hover:bg-gray-100">
+                                            <th class="py-3 px-6 text-left text-center">Codigo QR</th>
 
-                                    <td class="py-3 px-6 text-center">
-                                        <%= registros[i].id %>
-                                    </td>
+                                            <th class="py-3 px-6 text-center">Acciones</th>
 
-                                    <td class="py-3 px-6">
-                                        <%= registros[i].nombre %>
-                                    </td>
+                                        </tr>
+                                    </thead>
 
-                                    <td class="py-3 px-6">
-                                        <%= registros[i].descripcion %>
-                                    </td>
+                                    <tbody class="text-gray-600 text-sm font-light">
+                                        <% for (let i=0; i < registros.length; i++) { %>
+                                            <tr class="border-b border-gray-200 hover:bg-gray-100">
 
-                                    <td class="py-3 px-6">
-                                        <%= registros[i].departamento %>
-                                    </td>
-                                    <td class="py-3 px-6">
-                                        <%= registros[i].estado %>
-                                    </td>
-                                    <td class="py-3 px-6">
-                                        <%= registros[i].encargado %>
-                                    </td>
+                                                <td class="py-3 px-6 text-center">
+                                                    <%= registros[i].id %>
+                                                </td>
 
-                                    <!-- ejemplo de como creo q deberia quedar tu me dices luego si es asi o no
+                                                <td class="py-3 px-6">
+                                                    <%= registros[i].nombre %>
+                                                </td>
+
+                                                <td class="py-3 px-6">
+                                                    <%= registros[i].descripcion %>
+                                                </td>
+
+                                                <td class="py-3 px-6">
+                                                    <%= registros[i].departamento_nombre %>
+                                                </td>
+                                                <td class="py-3 px-6" style="max-width: 600px; word-break: break-word;">
+                                                    <span class="mr-2 rounded-full text-sm font-semibold
+                                            <%= registros[i].estado === 'Activo'
+                                                ? 'text-green-800'
+                                                : 'text-red-800' %>">
+                                                        <%= registros[i].estado %>
+                                                    </span><br>
+
+                                                    <% if (registros[i].observaciones &&
+                                                        registros[i].observaciones.trim() !=='' ) { %>
+                                                        <span class="text-gray-600">
+                                                            <%= registros[i].observaciones %>
+                                                        </span>
+                                                        <% } %>
+                                                </td>
+
+                                                <td class="py-3 px-6">
+                                                    <%= registros[i].encargado %>
+                                                </td>
+
+                                                <!-- ejemplo de como creo q deberia quedar tu me dices luego si es asi o no
                                 <td class="py-3 px-6">
                                     <%= registros[i].status %> <br>
                                     <%= registros[i].comentario ? registros[i].comentario : 'N/A' %>
                                 </td>
                                 -->
 
-                                    <td class="py-3 px-6"><img class="imgQr" src="<%= registros[i].qrUrl %>"
-                                            alt="Código QR" class="h-10 w-10"></td>
+                                                <td class="py-3 px-6"><img class="imgQr" src="<%= registros[i].qrUrl %>"
+                                                        alt="Código QR" class="h-10 w-10"></td>
 
-                                    <td class="flex justify-between py-3 px-6">
-                                        <button onclick="openEditModal(
+                                                <td class="flex justify-between gap-2 py-3 px-6">
+                                                    <button onclick="openEditModal(
+                                                '<%= registros[i].registro_id %>',
+                                                '<%= registros[i].id %>',
+                                                '<%= registros[i].nombre %>',
+                                                '<%= registros[i].descripcion %>',
+                                                '<%= registros[i].estado %>',
+                                                '<%= registros[i].observaciones %>',
+                                                '<%= registros[i].encargado %>',
+                                                '<%= registros[i].departamento_id %>'
+                                            )" class="btnAccionEditar flex items-center justify-center text-white px-2 py-1 rounded">
+                                                        <i class="bi bi-pencil-square"></i>
+                                                    </button>
+
+                                                    <button onclick="openDeleteModal(
                                                 '<%= registros[i].registro_id %>',
                                                 '<%= registros[i].id %>',
                                                 '<%= registros[i].nombre %>',
@@ -175,166 +268,173 @@
                                                 '<%= registros[i].estado %>',
                                                 '<%= registros[i].observaciones %>',
                                                 '<%= registros[i].encargado %>'
-                                            )"
-                                            class="btnAccionEditar flex items-center justify-center text-white px-2 py-1 rounded">
-                                            <i class="bi bi-pencil-square"></i>
-                                        </button>
+                                            )" class="btnAccionEliminar flex items-center justify-center text-white px-2 py-1 rounded"
+                                                        data-id="<%= registros[i].registro_id %>">
+                                                        <i class="bi bi-trash"></i>
+                                                    </button>
+                                                </td>
 
-                                        <button onclick="openDeleteModal(
-                                                '<%= registros[i].registro_id %>',
-                                                '<%= registros[i].id %>',
-                                                '<%= registros[i].nombre %>',
-                                                '<%= registros[i].descripcion %>',
-                                                '<%= registros[i].departamento %>',
-                                                '<%= registros[i].estado %>',
-                                                '<%= registros[i].observaciones %>',
-                                                '<%= registros[i].encargado %>'
-                                            )"
-                                            class="btnAccionEliminar flex items-center justify-center text-white px-2 py-1 rounded"
-                                            data-id="<%= registros[i].registro_id %>">
-                                            <i class="bi bi-trash"></i>
-                                        </button>
-                                    </td>
+                                            </tr>
+                                            <% }; %>
 
-                                </tr>
-                                <% }; %>
+                                    </tbody>
 
-                        </tbody>
+                                </table>
+                                <% } else { %>
+                                    <p>No hay registros disponibles.</p>
+                                    <% } %>
+                        </div>
+                    </div>
 
-                    </table>
-                    <% } else { %>
-                        <p>No hay registros disponibles.</p>
-                        <% } %>
-            </div>
-        </div>
+                    <footer class="pieDePagina">
+                        <div class="footer text-center mt-4 p-4  w-full text-white">
+                            <p>© 2025 Registro Contraloria.</p>
+                        </div>
+                    </footer>
 
     </main>
 
-    <div id="deleteModal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-75 overflow-y-auto h-full w-full">
-        <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
-            <div class="mt-3 text-center">
-                <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100">
-                    <i class="bi bi-exclamation-triangle text-red-600 text-xl"></i>
-                </div>
-                <h3 class="text-lg leading-6 font-medium text-gray-900 mt-2">¿Estás seguro de eliminar este registro?
-                </h3>
+    <div id="deleteModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-20 overflow-y-auto">
+        <div class="flex min-h-full items-center justify-center p-4">
+            <div class="relative w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-8 shadow-2xl">
+                <div class="mt-3 text-center">
+                    <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100">
+                        <i class="bi bi-exclamation-triangle text-red-600 text-xl"></i>
+                    </div>
+                    <h3 class="text-lg leading-6 font-medium text-gray-900 mt-2">¿Estás seguro de eliminar este
+                        registro?
+                    </h3>
 
-                <!-- Datos del registro -->
-                <div class="mt-4 text-left bg-gray-50 p-4 rounded-lg">
-                    <p class="text-sm text-gray-700"><span class="font-semibold">ID:</span> <span id="deleteId"></span>
-                    </p>
-                    <p class="text-sm text-gray-700"><span class="font-semibold">Nombre:</span> <span
-                            id="deleteNombre"></span></p>
-                    <p class="text-sm text-gray-700"><span class="font-semibold">Descripción:</span> <span
-                            id="deleteDescripcion"></span></p>
-                    <p class="text-sm text-gray-700"><span class="font-semibold">Departamento:</span> <span
-                            id="deleteDepartamento"></span></p>
-                </div>
+                    <!-- Datos del registro -->
+                    <div class="mt-4 text-left bg-gray-50 p-4 rounded-lg">
+                        <p class="text-sm text-gray-700"><span class="font-semibold">ID:</span> <span
+                                id="deleteId"></span>
+                        </p>
+                        <p class="text-sm text-gray-700"><span class="font-semibold">Nombre:</span> <span
+                                id="deleteNombre"></span></p>
+                        <p class="text-sm text-gray-700"><span class="font-semibold">Descripción:</span> <span
+                                id="deleteDescripcion"></span></p>
+                        <p class="text-sm text-gray-700"><span class="font-semibold">Departamento:</span> <span
+                                id="deleteDepartamento"></span></p>
+                    </div>
 
-                <div class="flex justify-center gap-4 mt-6">
-                    <button type="button" onclick="closeDeleteModal()"
-                        class="px-6 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 transition-colors">
-                        Cancelar
-                    </button>
-                    <button type="button" onclick="confirmDelete()"
-                        class="px-6 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors">
-                        Eliminar
-                    </button>
+                    <div class="flex justify-center gap-4 mt-6">
+                        <button type="button" onclick="closeDeleteModal()"
+                            class="px-6 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600">
+                            Cancelar
+                        </button>
+                        <button type="button" onclick="confirmDelete()"
+                            class="px-6 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">
+                            Eliminar
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="editModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 overflow-y-auto">
-        <div class="flex min-h-full items-center justify-center p-4 text-center">
+    <div id="editModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-20 overflow-y-auto">
+        <div class="flex min-h-full items-center justify-center p-4">
             <div
-                class="relative w-full max-w-lg transform overflow-hidden rounded-2xl bg-white p-8 shadow-2xl transition-all">
-
+                class="relative w-full max-w-2xl transform overflow-hidden rounded-2xl bg-white p-8 shadow-2xl transition-all">
                 <!-- Encabezado -->
                 <div class="mb-6 text-center">
                     <h3 class="text-2xl font-bold text-gray-800">✏️ Editar Registro</h3>
                     <p class="mt-1 text-sm text-gray-500">Actualiza la información del registro seleccionado</p>
                 </div>
 
-                <form id="editForm" method="POST" class="space-y-5">
+                <form id="editForm" method="POST" class="grid grid-cols-1 md:grid-cols-2 gap-4 text-left">
                     <input type="hidden" id="editDateID" name="DateID">
 
-                    <div>
-                        <label for="editId" class="block text-sm font-semibold text-gray-700 mb-2">ID</label>
-                        <input type="text" id="editId" name="id" required pattern="\d{3}" maxlength="3"
-                            oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 3)"
-                            title="El ID debe ser un número de exactamente 3 dígitos (ejemplo: 001, 123)"
-                            class="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-indigo-500 focus:ring-indigo-500 focus:outline-none">
+                    <div class="space-y-4">
+                        <div>
+                            <label for="editId" class="block text-sm font-semibold text-gray-700 mb-2">ID</label>
+                            <input type="text" id="editId" name="id" required pattern="\d{3}" maxlength="3"
+                                oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 3)"
+                                title="El ID debe ser un número de exactamente 3 dígitos"
+                                class="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-indigo-500 focus:ring-indigo-500">
+                        </div>
+
+                        <!-- Nombre -->
+                        <div>
+                            <label for="editNombre"
+                                class="block text-sm font-semibold text-gray-700 mb-2">Nombre</label>
+                            <input type="text" id="editNombre" name="nombre" required
+                                class="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-indigo-500 focus:ring-indigo-500">
+                        </div>
+
+                        <!-- Descripción -->
+                        <div>
+                            <label for="editDescripcion"
+                                class="block text-sm font-semibold text-gray-700 mb-2">Descripción</label>
+                            <input type="text" id="editDescripcion" name="descripcion" required
+                                class="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-indigo-500 focus:ring-indigo-500">
+                        </div>
                     </div>
 
-                    <div>
-                        <label for="editNombre" class="block text-sm font-semibold text-gray-700 mb-2">Nombre</label>
-                        <input type="text" id="editNombre" name="nombre" required
-                            class="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-indigo-500 focus:ring-indigo-500 focus:outline-none">
-                    </div>
+                    <!-- Columna Derecha -->
+                    <div class="space-y-4">
+                        <!-- Estado -->
+                        <div class="col-span-full mb-4">
+                            <label for="editStatus"
+                                class="block text-sm font-semibold text-gray-700 mb-2">Estado</label>
+                            <select id="editStatus" name="estado" required
+                                class="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-indigo-500 focus:ring-indigo-500">
+                                <option value="">Seleccione un estado</option>
+                                <option value="Activo">Activo</option>
+                                <option value="Inactivo">Inactivo</option>
+                            </select>
+                        </div>
 
-                    <div>
-                        <label for="editDescripcion"
-                            class="block text-sm font-semibold text-gray-700 mb-2">Descripción</label>
-                        <input type="text" id="editDescripcion" name="descripcion" required
-                            class="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-indigo-500 focus:ring-indigo-500 focus:outline-none">
-                    </div>
+                        <div>
 
-                    <div>
-                        <label for="editDepartamento"
-                            class="block text-sm font-semibold text-gray-700 mb-2">Departamento</label>
-                        <input type="text" id="editDepartamento" name="departamento" required
-                            class="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-indigo-500 focus:ring-indigo-500 focus:outline-none">
-                    </div>
+                            <div class="col-span-full mb-4">
+                                <label for="editDepartamentoID"
+                                    class="block text-sm font-semibold text-gray-700 mb-2">Departamentos</label>
+                                <select id="editDepartamento" name="departamento" required
+                                    class="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-indigo-500 focus:ring-indigo-500">
+                                    <option value="">Seleccione un departamento</option>
+                                    <% departamentos.forEach(departamento=> { %>
+                                        <option value="<%= departamento.id %>">
+                                            <%= departamento.nombre %>
+                                        </option>
+                                        <% }) %>
+                                </select>
+                            </div>
 
-                    <div>
-                        <label for="editStatus" class="block text-sm font-semibold text-gray-700 mb-2">Estado</label>
-                        <select id="editStatus" name="estado" required
-                            class="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-indigo-500 focus:ring-indigo-500 focus:outline-none">
-                            <option value="">Seleccione un estado</option>
-                            <option value="Activo">Activo</option>
-                            <option value="Inactivo">Inactivo</option>
-                        </select>
-                    </div>
+                            <!-- Observaciones -->
+                            <div class="col-span-full">
+                                <label for="editObservaciones"
+                                    class="block text-sm font-semibold text-gray-700 mb-2">Observaciones</label>
+                                <textarea id="editObservaciones" name="observaciones" rows="2"
+                                    class="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-indigo-500 focus:ring-indigo-500"></textarea>
+                            </div>
 
-                    <div>
-                        <label for="editObservaciones"
-                            class="block text-sm font-semibold text-gray-700 mb-2">Observaciones</label>
-                        <textarea id="editObservaciones" name="observaciones" rows="2"
-                            class="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-indigo-500 focus:ring-indigo-500 focus:outline-none"></textarea>
-                    </div>
+                            <!-- Responsable -->
+                            <div class="col-span-full">
+                                <label for="editEncargado"
+                                    class="block text-sm font-semibold text-gray-700 mb-2">Responsable</label>
+                                <input type="text" id="editEncargado" name="encargado" required
+                                    class="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-indigo-500 focus:ring-indigo-500">
+                            </div>
+                        </div>
 
-                    <div>
-                        <label for="editEncargado" class="block text-sm font-semibold text-gray-700 mb-2">Responsable
-                            del equipo</label>
-                        <input type="text" id="editEncargado" name="encargado" required
-                            class="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-indigo-500 focus:ring-indigo-500 focus:outline-none">
-                    </div>
-
-                    <!-- Footer del Modal -->
-                    <div class="mt-6 flex justify-end gap-4">
-                        <button type="button" onclick="closeModal()"
-                            class="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 transition">
-                            Cancelar
-                        </button>
-                        <button type="submit"
-                            class="rounded-lg bg-indigo-600 px-5 py-2 text-sm font-medium text-white shadow-md hover:bg-indigo-700 transition">
-                            Guardar Cambios
-                        </button>
-                    </div>
+                        <!-- Footer del Modal -->
+                        <div class="col-span-full mt-6 flex flex-col sm:flex-row justify-end gap-3">
+                            <button type="button" onclick="closeModal()"
+                                class="order-2 sm:order-1 w-full sm:w-auto rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 transition">
+                                Cancelar
+                            </button>
+                            <button type="submit"
+                                class="order-1 sm:order-2 w-full sm:w-auto rounded-lg bg-indigo-600 px-5 py-2 text-sm font-medium text-white shadow-md hover:bg-indigo-700 transition">
+                                Guardar Cambios
+                            </button>
+                        </div>
                 </form>
-
             </div>
         </div>
     </div>
-
-    <footer class="pieDePagina">
-        <div class="footer text-center mt-4 p-4  w-full text-white">
-            <p>© 2025 Registro Contraloria.</p>
-        </div>
-    </footer>
-
-    <script src="/js/script.js"></script>
+    <script src="/js/scriptRegistro.js"></script>
     <script src="/js/pdfFilter.js"></script>
     <script src="/js/searchFilter.js"></script>
 </body>

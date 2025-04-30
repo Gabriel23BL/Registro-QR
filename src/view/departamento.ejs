@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <title>Gestión de Departamentos</title>
+
+
+
+</head>
+
+<body style="background: rgb(1, 9, 34);">
+    <div id="alertaBonita"
+        class="hidden fixed top-5 right-5 text-white px-6 py-4 rounded-lg shadow-lg animate-fade-in-down z-40">
+        <i id="alertIcon" class="bi bi-check-circle mr-2"></i>
+        <span id="mensajeAlerta"></span>
+    </div>
+    <!-- Navbar móvil -->
+    <div class="md:hidden fixed bottom-0 w-full bg-gray-800 shadow-lg z-30">
+        <div class="flex justify-around p-2">
+
+            <a href="/usuarios" class="p-2 text-white transition-colors">
+                <i class="bi bi-people-fill text-2xl"></i>
+            </a>
+            <a href="/auditoria" class="p-2 text-white transition-colors">
+                <i class="bi bi-clipboard-check text-2xl "></i>
+            </a>
+            <a href="/logout" class="p-2 text-red-600 transition-colors">
+                <i class="bi bi-box-arrow-right text-2xl"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div id="sidebar"
+        class="fixed inset-y-0 left-0 transform -translate-x-full md:translate-x-0 w-64 bg-gray-800 text-white transition-transform duration-300 ease-in-out z-30">
+        <div class="flex items-center justify-between p-4 border-b border-gray-700">
+            <div class="flex items-center">
+                <img src="/images/logo.jpg" alt="Logo" class="h-10 w-10 rounded-full">
+                <span class="ml-3 font-semibold">Contraloría</span>
+            </div>
+            <button id="closeMenu" class="md:hidden text-gray-400 hover:text-white">
+                <i class="bi bi-x-lg"></i>
+            </button>
+        </div>
+
+        <nav class="p-4 space-y-2">
+            <a href="/" class="flex items-center p-2 rounded-lg hover:bg-blue-800 transition-colors">
+                <i class="bi bi-house-door mr-3"></i>
+                Inicio
+            </a>
+            <a href="/usuarios" class="flex items-center p-2 rounded-lg hover:bg-blue-800 transition-colors">
+                <i class="bi bi-people-fill mr-3"></i>
+                Usuarios
+            </a>
+            <a href="/auditoria" class="flex items-center p-2 rounded-lg hover:bg-blue-800 transition-colors">
+                <i class="bi bi-clipboard-check mr-3"></i>
+                Auditoría
+            </a>
+            <a href="/departamentos" class="flex items-center p-2 bg-blue-800 rounded-lg hover:bg-blue-800 transition-colors">
+                <i class="bi bi-buildings mr-3"></i>
+                Departamentos
+            </a>
+            <div class="border-t border-gray-700 my-2"></div>
+            <a href="/logout"
+                class="flex items-center p-2 rounded-lg hover:bg-red-800 hover:text-white transition-colors text-red-400">
+                <i class="bi bi-box-arrow-right mr-3"></i>
+                Cerrar Sesión
+            </a>
+        </nav>
+    </div>
+
+    <main class="flex-1 md:ml-64">
+        <!-- Alerta -->
+        <div id="alertaBonita"
+            class="hidden fixed top-5 right-5 text-white px-6 py-4 rounded-lg shadow-lg animate-fade-in-down z-40">
+            <i id="alertIcon" class="bi bi-check-circle mr-2"></i>
+            <span id="mensajeAlerta"></span>
+        </div>
+
+        <!-- Encabezado -->
+        <header class="container mx-auto p-4 text-center mt-2">
+            <h1 class="text-2xl text-white font-bold">Gestión de Departamentos</h1>
+        </header>
+
+        <!-- Contenido principal -->
+        <div class="container mx-auto p-4">
+            <!-- Sección superior con botón de agregar -->
+            <div class="flex justify-between items-center mb-6">
+                <div class="flex items-center">
+                    <h2 class="text-xl text-white font-bold">Lista de Departamentos</h2>
+                </div>
+                <button onclick="openAddDepartamentoModal()"
+                    class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded flex items-center">
+                    <i class="bi bi-plus-lg mr-2"></i>Agregar departamento
+                </button>
+            </div>
+
+            <!-- Tabla de usuarios -->
+            <div class="overflow-x-auto bg-white rounded-lg shadow">
+                <% if (departamentos.length> 0) { %>
+                    <table class="min-w-full">
+                        <thead>
+                            <tr class="bg-blue-900 text-white uppercase text-sm leading-normal">
+                                <th class="py-3 px-6 text-left">#</th>
+                                <th class="py-3 px-6 text-left">Nombre</th>
+                                <th class="py-3 px-6 text-left">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-gray-600 text-sm font-light">
+                            <% for (let i=0; i < departamentos.length; i++) { %>
+                                <tr class="border-b border-gray-200 hover:bg-gray-100">
+                                    <td class="py-3 px-6">
+                                        <%= departamentos[i].id %>
+                                    </td>
+                                    <td class="py-3 px-6">
+                                        <%= departamentos[i].nombre %>
+                                    </td>
+                                    <td class="py-3 text-center">
+                                        <div class="flex space-x-2">
+                                            <button onclick="openEditDepartamentoModal(
+                                                '<%= departamentos[i].id %>',
+                                                '<%= departamentos[i].nombre %>',
+                                            )"
+                                                class="btnAccionEditar flex items-center justify-center text-white px-2 py-1 rounded">
+                                                <i class="bi bi-pencil-square"></i>
+                                            </button>
+
+                                            <button onclick="openDeleteDepartamentoModal(
+                                                '<%= departamentos[i].id %>',
+                                                '<%= departamentos[i].nombre %>',
+
+                                            )"
+                                                class="btnAccionEliminar flex items-center justify-center text-white px-2 py-1 rounded">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <% } %>
+                        </tbody>
+                    </table>
+                    <% } else { %>
+                        <div class="p-6 text-center">
+                            <p class="text-gray-600">No hay departamento registrados.</p>
+                        </div>
+                    <% } %>
+            </div>
+        </div>
+
+
+    </main>
+
+    <div id="addDepartamentoModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-20 overflow-y-auto">
+        <div class="flex min-h-full items-center justify-center p-4">
+            <div
+                class="relative w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-8 shadow-2xl transition-all">
+                <div class="mb-6 text-center">
+                    <h3 class="text-2xl font-bold text-gray-800">➕ Agregar departamento</h3>
+                </div>
+
+                <form id="addDepartamentoForm" method="POST" action="/departamentos/agregar" class="space-y-4">
+                    <div>
+                        <label for="addDepartamentoNombre" class="block text-sm font-semibold text-gray-700 mb-2">Nombre</label>
+                        <input type="text" id="addDepartamentoNombre" name="nombre" required
+                            class="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-indigo-500 focus:ring-indigo-500">
+                    </div>
+                    <div class="flex justify-end gap-3 mt-6">
+                        <button type="button" onclick="closeAddDepartamentoModal()"
+                            class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 transition">
+                            Cancelar
+                        </button>
+                        <button type="submit"
+                            class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition">
+                            Agregar departamento
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para Editar Departamento -->
+    <div id="editDepartamentoModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-20 overflow-y-auto">
+        <div class="flex min-h-full items-center justify-center p-4">
+            <div
+                class="relative w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-8 shadow-2xl transition-all">
+                <div class="mb-6 text-center">
+                    <h3 class="text-2xl font-bold text-gray-800">✏️ Editar departamento</h3>
+                </div>
+
+                <form id="editDepartamentoForm" method="POST" action="/usuarios/editar" class="space-y-4">
+                    <input type="hidden" id="editDepartamentoId" name="id">
+                    <div>
+                        <label for="editDepartamentoNombre"
+                            class="block text-sm font-semibold text-gray-700 mb-2">Nombre</label>
+                        <input type="text" id="editDepartamentoNombre" name="nombre" required
+                            class="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-indigo-500 focus:ring-indigo-500">
+                    </div>
+                    <div class="flex justify-end gap-3 mt-6">
+                        <button type="button" onclick="closeEditDepartamentoModal()"
+                            class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 transition">
+                            Cancelar
+                        </button>
+                        <button type="submit"
+                            class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">
+                            Guardar Cambios
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="deleteDepartamentoModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-20 overflow-y-auto">
+        <div class="flex min-h-full items-center justify-center p-4">
+            <div
+                class="relative w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-8 shadow-2xl">
+                <div class="text-center">
+                    <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100">
+                        <i class="bi bi-exclamation-triangle text-red-600 text-xl"></i>
+                    </div>
+                    <h3 class="text-lg font-medium text-gray-900 mt-2">¿Eliminar departamento?</h3>
+                    <div class="mt-4 text-left bg-gray-50 p-4 rounded-lg">
+                        <p class="text-sm text-gray-700"><span class="font-semibold">Nombre:</span> <span
+                                id="deleteDepartamentoName"></span></p>
+                    </div>
+                    <div class="flex justify-center gap-4 mt-6">
+                        <button type="button" onclick="closeDeleteDepartamentoModal()"
+                            class="px-6 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400">
+                            Cancelar
+                        </button>
+                        <button type="button" onclick="confirmDeleteDepartamento()"
+                            class="px-6 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">
+                            Eliminar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/js/scriptDepartamento.js"></script>
+</body>
+
+</html>

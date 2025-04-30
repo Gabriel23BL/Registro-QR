@@ -1,4 +1,4 @@
-export const validarCampos = (id, nombre, descripcion, departamento, estado, observaciones, encargado) => {
+export const validarCampos = (id, nombre, descripcion, estado, observaciones, encargado, departamento_id) => {
     if (!id || !/^\d{3}$/.test(id)) {
         throw new Error('El ID debe ser un número de exactamente 3 dígitos.');
       }
@@ -8,7 +8,7 @@ export const validarCampos = (id, nombre, descripcion, departamento, estado, obs
       if (!descripcion || typeof descripcion !== 'string' || descripcion.trim() === '') {
         throw new Error('La descripción es obligatoria.');
       }
-      if (!departamento || typeof departamento !== 'string' || departamento.trim() === '') {
+      if (!departamento_id) {
         throw new Error('El departamento es obligatorio.');
       }
       if (!estado || !['Activo', 'Inactivo'].includes(estado)) {

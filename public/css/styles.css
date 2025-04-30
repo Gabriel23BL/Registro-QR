@@ -18,6 +18,9 @@ body {
     background: linear-gradient(to bottom, var(--aqua2), var(--azulMarino));
 }
 
+.bodyResult { 
+    background: linear-gradient(to bottom, var(--aqua2), var(--azulMarino));
+}
 
 /*titulo*/
 .tituloVista {
@@ -49,6 +52,8 @@ body {
     margin: 0 auto;
     width: 70px;
     height: 70px;
+    object-fit: contain;
+
     
 }
 
@@ -169,7 +174,31 @@ body {
     animation: fadeIn 0.3s;
 }
 
+/*Alerta de mensaje*/
+
+.error-message {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 2500;
+    opacity: 0;
+    transform: translateX(120%);
+    pointer-events: none;
+    display: none;
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+}
+
+.error-message.visible {
+    display: block;
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
+}
+
+
+
 @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
 }
+
