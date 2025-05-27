@@ -1,6 +1,7 @@
 import { ModeloRegistro } from "../Model/ModeloRegistro.js";
 import { validarCampos } from "../middlewares/validation.js";
 import { obtenerIpServidor } from "../utils/ObtenerIpServidor.js";
+import 'dotenv/config';
 import PDFDocument from 'pdfkit';
 import QRCode from 'qrcode';
 
@@ -11,7 +12,7 @@ export class ControladorRegistro {
       const departamentos = await ModeloRegistro.buscarDepartamento();
       for (const registro of registros) {
         const ipServidor = await obtenerIpServidor();
-        const qrText = `http://${ipServidor}:${3000}/registros/${registro.id}`;
+        const qrText = `http://${ipServidor}:${process.env.PORT}/registros/${registro.id}`;
         const qrUrl = await QRCode.toDataURL(qrText);
         await ModeloRegistro.qrUpdate(registro.id, qrUrl);
       }
@@ -53,7 +54,7 @@ export class ControladorRegistro {
       }
       // const qrText = `${req.protocol}://${req.get('host')}/registros/${id}`;
       const ipServidor = await obtenerIpServidor();
-      const qrText = `http://${ipServidor}:${3000}/registros/${id}`;
+      const qrText = `http://${ipServidor}:${process.env.PORT}/registros/${id}`;
       const qrUrl = await QRCode.toDataURL(qrText);
       await ModeloRegistro.crearRegistro(req.body, qrUrl);
       res.status(200).json({ message: 'Registro creado correctamente.' });
@@ -74,7 +75,7 @@ export class ControladorRegistro {
         return res.status(400).json({ error: `El ID ${id} ya está registrado en otro registro.` });
       }
       const ipServidor = await obtenerIpServidor();
-      const qrText = `http://${ipServidor}:${3000}/registros/${id}`;
+      const qrText = `http://${ipServidor}:${process.env.PORT}/registros/${id}`;
       const qrUrl = await QRCode.toDataURL(qrText);
       await ModeloRegistro.actualizarRegistro(registro_id, qrUrl, req.body);
       res.status(200).json({ message: 'Registro actualizado correctamente.' });
@@ -136,7 +137,7 @@ export class ControladorRegistro {
 
       const ipServidor = await obtenerIpServidor();
       for (const registro of registros) {
-        const qrText = `http://${ipServidor}:${3000}/registros/${registro.id}`;
+        const qrText = `http://${ipServidor}:${process.env.PORT}/registros/${registro.id}`;
         const qrBuffer = await QRCode.toBuffer(qrText, {
           type: 'png',
           errorCorrectionLevel: 'H',
