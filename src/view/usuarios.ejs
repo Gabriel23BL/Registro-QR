@@ -20,7 +20,7 @@
         <span id="mensajeAlerta"></span>
     </div>
     <!-- Navbar móvil -->
-    <div class="md:hidden fixed bottom-0 w-full bg-gray-800 shadow-lg z-30">
+    <div class="md:hidden fixed bottom-0 w-full bg-gray-800 z-10 shadow-lg z-30">
         <div class="flex justify-around p-2">
 
             <a href="/usuarios" class="p-2 text-white transition-colors">
@@ -29,7 +29,7 @@
             <a href="/auditoria" class="p-2 text-white transition-colors">
                 <i class="bi bi-clipboard-check text-2xl "></i>
             </a>
-            <a href="/departamentos" class="flex items-center p-2 rounded-lg hover:bg-blue-800 transition-colors">
+            <a href="/departamentos" class="flex items-center p-2 text-white rounded-lg hover:bg-blue-800 transition-colors">
                 <i class="bi bi-buildings mr-3"></i>
             </a>
             <a href="/logout" class="p-2 text-red-600 transition-colors">
@@ -51,7 +51,7 @@
             </button>
         </div>
 
-        <nav class="p-4 space-y-2">
+        <nav class="p-4 space-y-2 z-10">
             <a href="/" class="flex items-center p-2 rounded-lg hover:bg-blue-800 transition-colors">
                 <i class="bi bi-house-door mr-3"></i>
                 Inicio
@@ -185,7 +185,7 @@
     </main>
 
     <!-- Modal para Agregar Usuario -->
-    <div id="addUserModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-20 overflow-y-auto">
+    <div id="addUserModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 overflow-y-auto">
         <div class="flex min-h-full items-center justify-center p-4">
             <div
                 class="relative w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-8 shadow-2xl transition-all">
@@ -256,7 +256,7 @@
     </div>
 
     <!-- Modal para Editar Usuario -->
-    <div id="editUserModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-20 overflow-y-auto">
+    <div id="editUserModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 overflow-y-auto">
         <div class="flex min-h-full items-center justify-center p-4">
             <div
                 class="relative w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-8 shadow-2xl transition-all">
@@ -332,7 +332,7 @@
         </div>
     </div>
 
-    <div id="deleteUserModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-20 overflow-y-auto">
+    <div id="deleteUserModal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 overflow-y-auto">
         <div class="flex min-h-full items-center justify-center p-4">
             <div
                 class="relative w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-8 shadow-2xl">
