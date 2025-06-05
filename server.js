@@ -3,6 +3,8 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { rutas } from "./src/router/route.js";
 import cookieParser from 'cookie-parser';
+import 'dotenv/config';
+
 const app = express();
 const port = process.env.PORT || 3000;
 const __filename = fileURLToPath(import.meta.url);

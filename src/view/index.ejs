@@ -74,7 +74,7 @@
     <main class="flex-1 md:ml-64">
 
         <div id="alertaBonita"
-            class="hidden fixed top-5 right-5 text-white px-6 py-4 rounded-lg shadow-lg animate-fade-in-down z-40">
+            class="hidden fixed top-5 right-5 text-white px-6 py-4 rounded-lg shadow-lg animate-fade-in-down" style="z-index: 9999;">
             <i id="alertIcon" class="bi bi-check-circle mr-2"></i>
             <span id="mensajeAlerta"></span>
         </div>
@@ -91,9 +91,7 @@
                     <div class="formulario bg-white p-6 rounded shadow-md w-full max-w-md">
                         <form id="registroForm" action="/registrar" method="POST">
                             <label for="id" class="block text-white ">Número de Identificación</label>
-                            <input type="text" id="id" name="id" required pattern="\d{3}" maxlength="3"
-                                oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 3)"
-                                title="El ID debe ser un número de exactamente 3 dígitos (ejemplo: 001, 123)"
+                            <input type="number" id="id" name="id" required min="1"
                                 class="border border-gray-300 p-2 w-full mb-4 rounded">
                             <label for="nombre" class="block text-white ">Nombre</label>
                             <input type="text" id="nombre" name="nombre" required
@@ -272,7 +270,6 @@
                                                 '<%= registros[i].id %>',
                                                 '<%= registros[i].nombre %>',
                                                 '<%= registros[i].descripcion %>',
-                                                '<%= registros[i].departamento %>',
                                                 '<%= registros[i].estado %>',
                                                 '<%= registros[i].observaciones %>',
                                                 '<%= registros[i].encargado %>'
@@ -322,8 +319,6 @@
                                 id="deleteNombre"></span></p>
                         <p class="text-sm text-gray-700"><span class="font-semibold">Descripción:</span> <span
                                 id="deleteDescripcion"></span></p>
-                        <p class="text-sm text-gray-700"><span class="font-semibold">Departamento:</span> <span
-                                id="deleteDepartamento"></span></p>
                     </div>
 
                     <div class="flex justify-center gap-4 mt-6">
@@ -357,9 +352,7 @@
                     <div class="space-y-4">
                         <div>
                             <label for="editId" class="block text-sm font-semibold text-gray-700 mb-2">ID</label>
-                            <input type="text" id="editId" name="id" required pattern="\d{3}" maxlength="3"
-                                oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 3)"
-                                title="El ID debe ser un número de exactamente 3 dígitos"
+                            <input type="number" id="editId" name="id" required min="1"
                                 class="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-indigo-500 focus:ring-indigo-500">
                         </div>
 
