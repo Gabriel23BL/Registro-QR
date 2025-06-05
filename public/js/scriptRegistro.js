@@ -99,12 +99,11 @@ document.getElementById('editForm').addEventListener('submit', async function(e)
 
 
     let registroToDelete = null;
-    function openDeleteModal(DateID, id, nombre, descripcion, departamento) {
+    function openDeleteModal(DateID, id, nombre, descripcion) {
         registroToDelete = { DateID };
         document.getElementById('deleteId').textContent = id;
         document.getElementById('deleteNombre').textContent = nombre;
         document.getElementById('deleteDescripcion').textContent = descripcion;
-        document.getElementById('deleteDepartamento').textContent = departamento;
         document.getElementById('deleteModal').classList.remove('hidden');
     }
 
